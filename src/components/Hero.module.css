@@ -1,0 +1,211 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: visible;
+  background: transparent;
+}
+
+.mediaWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  will-change: width, height, border-radius;
+  border-radius: 0;
+  background: transparent;
+  transform-origin: center center;
+  z-index: 1;
+}
+
+.watermarkCover {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  height: 40px;
+  background: transparent;
+  z-index: 1;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    transparent 0%,
+    rgba(10, 10, 15, 0.4) 30%,
+    rgba(10, 10, 15, 0.1) 100%
+  );
+  z-index: 2;
+}
+
+.gridLines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background-image: linear-gradient(rgba(232, 255, 71, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 255, 71, 0.02) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.nav {
+  position: absolute;
+  top: 32px;
+  right: clamp(1.5rem, 4vw, 4rem);
+  z-index: 10;
+  display: flex;
+  gap: 28px;
+}
+
+.navLink {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.38);
+  text-decoration: none;
+  font-family: "DM Sans", sans-serif;
+  transition: color 0.3s;
+}
+
+.navLink:hover {
+  color: #e8ff47;
+}
+
+.logoContainer {
+  position: absolute;
+  top: 28px;
+  left: clamp(1.5rem, 4vw, 4rem);
+  z-index: 10;
+}
+
+.logo {
+  font-family: "Clash Display", "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #f0ede6;
+}
+
+.logoDot {
+  color: #e8ff47;
+}
+
+.content {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 clamp(1.5rem, 6vw, 6rem) 5rem;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.4);
+  margin-bottom: 1.25rem;
+  font-family: "DM Sans", sans-serif;
+}
+
+.title {
+  font-family: "Clash Display", "DM Sans", sans-serif;
+  font-size: clamp(3rem, 10vw, 9.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: #f0ede6;
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+
+.titleDot {
+  color: #e8ff47;
+}
+
+.subtitle {
+  margin-top: 1.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.4);
+  font-family: "DM Sans", sans-serif;
+}
+
+.ctaContainer {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.scrollIndicator {
+  position: absolute;
+  right: clamp(1rem, 2.5vw, 2rem);
+  bottom: 40px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(240, 237, 230, 0.3);
+}
+
+.scrollText {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 32px;
+  background: rgba(240, 237, 230, 0.15);
+}
+
+/* Hover Button */
+.hoverBtn {
+  position: relative;
+  overflow: hidden;
+  padding: 0.85rem 1.75rem;
+  cursor: none;
+  font-family: "Clash Display", "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  transition: filter 0.2s;
+}
+
+.hoverBtnOutline {
+  border: 1px solid rgba(240, 237, 230, 0.6);
+  background: transparent;
+  color: #f0ede6;
+}
+
+.hoverBtnSolid {
+  background: #e8ff47;
+  color: #0a0a0f;
+}
+
+.btnFill {
+  position: absolute;
+  inset: 0;
+  background: #e8ff47;
+  transform: translateY(101%);
+  z-index: 0;
+}
+
+.btnText {
+  position: relative;
+  z-index: 1;
+}

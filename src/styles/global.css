@@ -1,0 +1,56 @@
+:root {
+  --bg: #0A0A0F;
+  --cream: #F0EDE6;
+  --lime: #E8FF47;
+  --surface: #3A3A3A;
+  --dim: #1A1A22;
+  --text-white: #F0EDE6;
+  --text-muted: rgba(240, 237, 230, 0.4);
+  --font-display: "Clash Display", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --grid: rgba(232, 255, 71, 0.02);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+section {
+  position: relative;
+  width: 100%;
+}
+
+.pin-spacer {
+  background: var(--bg) !important;
+}
+
+/* Grid Overlay Utility */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+h1, h2, h3, .clash {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+}

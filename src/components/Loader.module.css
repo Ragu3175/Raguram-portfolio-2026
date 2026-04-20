@@ -1,0 +1,76 @@
+.loaderContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0a0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.nameText {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f0ede6;
+  text-transform: uppercase;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+}
+
+.char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  filter: blur(10px);
+}
+
+.progressGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.barTrack {
+  width: 160px;
+  height: 2px;
+  background-color: rgba(240, 237, 230, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.barFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #e8ff47;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  box-shadow: 0 0 15px rgba(232, 255, 71, 0.4);
+}
+
+.statusText {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(240, 237, 230, 0.4);
+  text-transform: uppercase;
+  margin: 0;
+}
