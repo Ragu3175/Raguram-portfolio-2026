@@ -12,30 +12,43 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+
+gsap.registerPlugin(ScrollTrigger);
+
 function App() {
   const [isHeroReady, setIsHeroReady] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(false);
 
-  // Initialize Lenis Smooth Scroll
+  // Fix 1: Initialize Lenis Smooth Scroll (npm version)
   useEffect(() => {
-    // Lenis is already loaded via CDN in index.html, but we handle initialization here
-    if (window.Lenis) {
-      const lenis = new window.Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-      });
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+    lenis.on('scroll', ScrollTrigger.update);
 
+    const raf = (time) => {
+      lenis.raf(time);
       requestAnimationFrame(raf);
-    }
+    };
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
   }, []);
+
+  // Fix 2: Refresh ScrollTrigger after sections mount
+  useEffect(() => {
+    if (!loadingFinished) return;
+    // Wait one frame for React to commit the new sections to DOM
+    const id = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+    return () => cancelAnimationFrame(id);
+  }, [loadingFinished]);
 
   const handleHeroReady = useCallback(() => {
     setIsHeroReady(true);

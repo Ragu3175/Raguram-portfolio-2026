@@ -1,0 +1,342 @@
+.section {
+  height: 100vh;
+  width: 100vw;
+  background-color: #0A0A0F;
+  position: relative;
+  perspective: 1200px;
+}
+
+.inner {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 42% 52%;
+  gap: 6%;
+  padding: 0 5vw;
+  align-items: center;
+}
+
+/* Left Column */
+.leftCol {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: clamp(2rem, 5vw, 5rem);
+}
+
+.ghostNum {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(20rem, 35vw, 30rem);
+  font-weight: 900;
+  color: #F0EDE6;
+  opacity: 0.05;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.photoWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 3/4;
+  z-index: 1;
+}
+
+.photoIris {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  clip-path: circle(0% at 50% 50%);
+}
+
+.profileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(1);
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.photoGlow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 30px;
+  background: #E8FF47;
+  filter: blur(40px);
+  opacity: 0;
+  will-change: opacity;
+}
+
+.sectionLabel {
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.labelLine {
+  width: 40px;
+  height: 1px;
+  background: rgba(232, 255, 71, 0.4);
+}
+
+.badge {
+  position: absolute;
+  background: rgba(10, 10, 15, 0.88);
+  border: 1px solid rgba(232, 255, 71, 0.2);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #E8FF47;
+  opacity: 0;
+  z-index: 10;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  will-change: transform, opacity;
+}
+
+/* Right Column */
+.rightCol {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  perspective: 1200px;
+}
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  background: rgba(18, 18, 24, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(232, 255, 71, 0.08);
+  border-radius: 16px;
+  padding: 3rem 3.5rem;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+}
+
+/* Card 1 - Identity */
+.card1 {
+  border-left: 2px solid #E8FF47;
+}
+
+.card1Border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #E8FF47;
+  border-radius: 16px 0 0 16px;
+}
+
+.card1Name {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: #F0EDE6;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.card1Role {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.4);
+  margin-bottom: 3rem;
+}
+
+.statsRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.statNum {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #F0EDE6;
+  line-height: 1;
+}
+
+.statSuffix {
+  color: #E8FF47;
+  font-size: 0.6em;
+  vertical-align: super;
+}
+
+.statLabel {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.35);
+}
+
+.statDivider {
+  width: 1px;
+  height: 60px;
+  background: rgba(240, 237, 230, 0.08);
+  align-self: center;
+}
+
+/* Card 2 - Philosophy */
+.card2 {
+  border: 1px solid rgba(232, 255, 71, 0.15);
+  padding: 4rem;
+}
+
+.quoteBg {
+  position: absolute;
+  top: -40px;
+  left: -10px;
+  font-size: 18rem;
+  color: rgba(232, 255, 71, 0.04);
+  font-family: var(--font-display);
+  line-height: 0.7;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+.quoteText {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #F0EDE6;
+  position: relative;
+  z-index: 1;
+  min-height: 160px;
+}
+
+.quoteLine {
+  width: 40px;
+  height: 2px;
+  background: #E8FF47;
+  margin-top: 2.5rem;
+}
+
+/* Card 3 - Bio + Stack */
+.card3 {
+  border: 1px solid rgba(240, 237, 230, 0.06);
+}
+
+.card3Header {
+  margin-bottom: 2rem;
+}
+
+.card3Label {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(232, 255, 71, 0.6);
+}
+
+.bioWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(232, 255, 71, 0.6), transparent);
+  top: 0%;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: 0 0 20px rgba(232, 255, 71, 0.4);
+}
+
+.bioText {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(240, 237, 230, 0.8);
+  /* mask-image applied via GSAP */
+}
+
+.lime {
+  color: #E8FF47;
+  font-weight: 500;
+}
+
+.stackPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pill {
+  border: 1px solid rgba(232, 255, 71, 0.15);
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.65rem;
+  color: rgba(240, 237, 230, 0.6);
+  font-family: var(--font-body);
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  cursor: default;
+}
+
+.pill:hover {
+  border-color: rgba(232, 255, 71, 0.5);
+  color: #E8FF47;
+  background: rgba(232, 255, 71, 0.03);
+}

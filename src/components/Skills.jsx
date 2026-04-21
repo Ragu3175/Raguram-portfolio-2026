@@ -53,9 +53,9 @@ const Skills = () => {
     return SKILLS_DATA.filter(skill => skill.category === activeTab);
   }, [activeTab]);
 
+  // 1) Header scroll animation — runs ONCE on mount only
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Header Animation
       gsap.fromTo(headerRef.current,
         { y: 30, opacity: 0 },
         { 
@@ -69,39 +69,55 @@ const Skills = () => {
           }
         }
       );
-
-      // Cards Animation - Random positions
-      // We animate cards that are currently visible
-      const animateCards = () => {
-        gsap.fromTo(cardsRef.current.filter(Boolean),
-          { 
-            x: () => gsap.utils.random(-300, 300), 
-            y: () => gsap.utils.random(-200, 200), 
-            opacity: 0, 
-            scale: 0.6 
-          },
-          { 
-            x: 0, 
-            y: 0, 
-            opacity: 1, 
-            scale: 1, 
-            duration: 0.8, 
-            ease: "back.out(1.2)", 
-            stagger: 0.03,
-            scrollTrigger: {
-              trigger: gridRef.current,
-              start: "top 80%",
-            }
-          }
-        );
-      };
-
-      animateCards();
-
     }, sectionRef);
-
     return () => ctx.revert();
-  }, [activeTab]); // Re-animate when tab changes? The prompt implies entry animation, but let's re-run for filter feel.
+  }, []);
+
+  // 2) Card fly-in — runs when filteredSkills changes OR on first scroll entry
+  useLayoutEffect(() => {
+    if (!cardsRef.current.length) return;
+    const cards = cardsRef.current.filter(Boolean);
+    if (!cards.length) return;
+
+    // We want the cards to fly in when:
+    // 1. The user clicks a category tab (filteredSkills changes)
+    // 2. The user first scrolls into the section
+    
+    const triggerAnim = () => {
+      gsap.fromTo(cards,
+        {
+          x: () => gsap.utils.random(-200, 200),
+          y: () => gsap.utils.random(-150, 150),
+          opacity: 0,
+          scale: 0.7,
+        },
+        {
+          x: 0,
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: "back.out(1.2)",
+          stagger: 0.025,
+          overwrite: true
+        }
+      );
+    };
+
+    const st = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top 60%",
+      onEnter: triggerAnim,
+      once: true // Only auto-trigger on first scroll entry
+    });
+
+    // Also trigger immediately if the tab changed (and we're already passed the trigger point)
+    if (st.isActive || activeTab !== "All") {
+      triggerAnim();
+    }
+
+    return () => st.kill();
+  }, [filteredSkills, activeTab]);
 
   return (
     <section ref={sectionRef} className={styles.section} id="skills">

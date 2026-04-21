@@ -9,9 +9,7 @@ const HeroExit = () => {
   const sectionRef = useRef(null);
   const topRef = useRef(null);
   const bottomRef = useRef(null);
-  const lineRef = useRef(null);
   const textRef = useRef(null);
-  const containerRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -23,17 +21,10 @@ const HeroExit = () => {
           end: "+=150%",
           pin: true,
           scrub: 1,
-          // markers: true,
         }
       });
 
-      // 1. Line draws out
-      tl.fromTo(lineRef.current, 
-        { width: 0 }, 
-        { width: "100%", duration: 1, ease: "none" }
-      );
-
-      // 2. Line splits and content reveals
+      // 1. Split panels and reveal content (no line)
       tl.to(topRef.current, { yPercent: -100, duration: 1 }, "split")
         .to(bottomRef.current, { yPercent: 100, duration: 1 }, "split")
         .fromTo(textRef.current, 
@@ -48,21 +39,18 @@ const HeroExit = () => {
 
   return (
     <section ref={sectionRef} className={styles.section}>
-      {/* Background Starfield */}
-      <div className={styles.stars}></div>
+      <div className={styles.stars} />
 
-      {/* Center Reveal Content */}
+      {/* Reveal text — sits behind panels, z-index 1 */}
       <div className={styles.revealContent}>
         <h2 ref={textRef} className={styles.headline}>
           BUILDING THINGS<br />THAT MATTER.
         </h2>
       </div>
 
-      {/* The Split Panels */}
-      <div ref={topRef} className={styles.panelTop}>
-        <div className={styles.line}></div>
-      </div>
-      <div ref={bottomRef} className={styles.panelBottom}></div>
+      {/* Split panels — z-index 5, cover text until split */}
+      <div ref={topRef} className={styles.panelTop} />
+      <div ref={bottomRef} className={styles.panelBottom} />
     </section>
   );
 };
