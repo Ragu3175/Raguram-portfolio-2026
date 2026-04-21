@@ -1,55 +1,170 @@
 .section {
   min-height: 100vh;
-  width: 100vw;
-  background-color: var(--bg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: clamp(4rem, 8vw, 8rem);
+  background: var(--bg);
+  color: var(--cream);
   position: relative;
   overflow: hidden;
-  padding: 5rem 2rem;
 }
 
-.ghostTitle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-display);
-  font-size: clamp(6rem, 25vw, 22rem);
-  color: rgba(240, 237, 230, 0.04);
-  pointer-events: none;
-  z-index: 0;
-  white-space: nowrap;
+/* Header */
+.header {
+  margin-bottom: 4rem;
 }
 
-.pillContainer {
-  position: relative;
-  z-index: 1;
+.label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.3);
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: #f0ede6;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 0.65rem;
+  color: rgba(240, 237, 230, 0.4);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Filter Tabs */
+.filterRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  max-width: 1000px;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
 }
 
-.pill {
-  border: 1px solid rgba(232, 255, 71, 0.2);
+.tab {
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(240, 237, 230, 0.1);
   border-radius: 999px;
-  padding: 0.6rem 1.4rem;
-  color: var(--text-white);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 500;
-  background-color: rgba(10, 10, 15, 0.4);
-  backdrop-filter: blur(4px);
-  cursor: default;
-  transition: all 0.3s ease;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.4);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.pill:hover {
-  background-color: rgba(232, 255, 71, 0.08);
-  border-color: var(--lime);
-  transform: scale(1.08);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+.tab:hover, .tabActive {
+  border-color: rgba(232, 255, 71, 0.5);
+  color: #e8ff47;
+  background: rgba(232, 255, 71, 0.05);
+}
+
+/* Skills Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 4rem;
+}
+
+.card {
+  border: 1px solid rgba(240, 237, 230, 0.07);
+  border-radius: 6px;
+  padding: 1rem;
+  background: rgba(20, 20, 28, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+
+.card:hover {
+  border-color: rgba(232, 255, 71, 0.25);
+  transform: translateY(-3px);
+}
+
+.skillName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #f0ede6;
+}
+
+/* Proficiency Bar */
+.barTrack {
+  height: 2px;
+  background: rgba(240, 237, 230, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.barFill {
+  height: 100%;
+  background: rgba(232, 255, 71, 0.3);
+  transition: background 0.3s ease, width 1s ease-in-out;
+}
+
+.card:hover .barFill {
+  background: #e8ff47;
+}
+
+.levelLabel {
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.25);
+  transition: color 0.3s ease;
+}
+
+.card:hover .levelLabel {
+  color: rgba(232, 255, 71, 0.5);
+}
+
+/* Footer Line */
+.footerLine {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(240, 237, 230, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  color: rgba(240, 237, 230, 0.3);
+  letter-spacing: 0.12em;
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e8ff47;
+  position: relative;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(232, 255, 71, 0.4);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 6px rgba(232, 255, 71, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 2rem;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
 }
