@@ -55,18 +55,23 @@ const CustomCursor = () => {
       });
     };
 
-    const hoverables = document.querySelectorAll('button, a, .hover-target');
-    hoverables.forEach(el => {
-      el.addEventListener('mouseenter', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
-    });
+    const handleDelegate = (e) => {
+      if (e.target.closest('button, a, [data-mag]')) {
+        handleMouseEnter();
+      }
+    };
+    const handleDelegateLeave = (e) => {
+      if (e.target.closest('button, a, [data-mag]')) {
+        handleMouseLeave();
+      }
+    };
+    document.body.addEventListener('mouseenter', handleDelegate, true);
+    document.body.addEventListener('mouseleave', handleDelegateLeave, true);
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
-      hoverables.forEach(el => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
+      document.body.removeEventListener('mouseenter', handleDelegate, true);
+      document.body.removeEventListener('mouseleave', handleDelegateLeave, true);
     };
   }, []);
 

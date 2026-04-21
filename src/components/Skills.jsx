@@ -53,6 +53,9 @@ const Skills = () => {
     return SKILLS_DATA.filter(skill => skill.category === activeTab);
   }, [activeTab]);
 
+  // Reset refs array on each render
+  cardsRef.current = cardsRef.current.slice(0, filteredSkills.length);
+
   // 1) Header scroll animation — runs ONCE on mount only
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -79,45 +82,44 @@ const Skills = () => {
     const cards = cardsRef.current.filter(Boolean);
     if (!cards.length) return;
 
-    // We want the cards to fly in when:
-    // 1. The user clicks a category tab (filteredSkills changes)
-    // 2. The user first scrolls into the section
-    
-    const triggerAnim = () => {
-      gsap.fromTo(cards,
-        {
-          x: () => gsap.utils.random(-200, 200),
-          y: () => gsap.utils.random(-150, 150),
-          opacity: 0,
-          scale: 0.7,
-        },
-        {
-          x: 0,
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          ease: "back.out(1.2)",
-          stagger: 0.025,
-          overwrite: true
-        }
-      );
-    };
-
-    const st = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: "top 60%",
-      onEnter: triggerAnim,
-      once: true // Only auto-trigger on first scroll entry
+    // Reset to scattered positions immediately
+    gsap.set(cards, {
+      x: () => gsap.utils.random(-300, 300),
+      y: () => gsap.utils.random(-200, 200),
+      opacity: 0,
+      scale: 0.6,
     });
 
-    // Also trigger immediately if the tab changed (and we're already passed the trigger point)
-    if (st.isActive || activeTab !== "All") {
-      triggerAnim();
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 70%',
+        onEnter: flyIn,
+        onEnterBack: flyIn,
+      });
+
+      // Also fly in immediately if already past trigger
+      const rect = sectionRef.current.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.7) {
+        flyIn();
+      }
+    });
+
+    function flyIn() {
+      gsap.to(cards, {
+        x: 0,
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.7,
+        ease: 'back.out(1.2)',
+        stagger: 0.03,
+        overwrite: true,
+      });
     }
 
-    return () => st.kill();
-  }, [filteredSkills, activeTab]);
+    return () => ctx.revert();
+  }, [filteredSkills]);
 
   return (
     <section ref={sectionRef} className={styles.section} id="skills">

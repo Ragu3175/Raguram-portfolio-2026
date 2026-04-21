@@ -69,14 +69,11 @@ export default function Loader({ isReady, onComplete }) {
         yPercent: -100,
         duration: 0.8,
         ease: 'power4.inOut',
-        onStart: () => {
+        onComplete: () => {
           if (onComplete) onComplete()
+          if (loaderRef.current) loaderRef.current.style.display = 'none'
         }
       })
-      .to({}, { duration: 0.1, onComplete: () => {
-        // Ensure loader is hidden from DOM after animation
-        if (loaderRef.current) loaderRef.current.style.display = 'none'
-      }})
       .play()
     }
   }, [isReady])

@@ -5,8 +5,8 @@ import CustomCursor from './components/CustomCursor';
 import Atmosphere from './components/Atmosphere';
 
 // NEW SECTIONS
-import HeroExit from './components/HeroExit';
-import WhoAmI from './components/WhoAmI';
+import Transition from './components/Transition';
+import StarField from './components/StarField';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
@@ -44,10 +44,10 @@ function App() {
   useEffect(() => {
     if (!loadingFinished) return;
     // Wait one frame for React to commit the new sections to DOM
-    const id = requestAnimationFrame(() => {
+    const id = setTimeout(() => {
       ScrollTrigger.refresh();
-    });
-    return () => cancelAnimationFrame(id);
+    }, 150);
+    return () => clearTimeout(id);
   }, [loadingFinished]);
 
   const handleHeroReady = useCallback(() => {
@@ -60,6 +60,7 @@ function App() {
 
   return (
     <main style={{ backgroundColor: '#0a0a0f', minHeight: '100vh', position: 'relative' }}>
+      <StarField />
       <CustomCursor />
       <div className="grid-overlay" /> {/* Note: swapped grain-overlay for grid-overlay as per prompt */}
       <Atmosphere isActive={loadingFinished} />
@@ -69,8 +70,7 @@ function App() {
       
       {loadingFinished && (
         <>
-          <HeroExit />
-          <WhoAmI />
+          <Transition />
           <About />
           <Skills />
           <Projects />

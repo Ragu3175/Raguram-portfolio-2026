@@ -1,8 +1,9 @@
 .section {
   height: 100vh;
   width: 100vw;
-  background-color: var(--bg);
+  background: #0A0A0F;
   perspective: 1200px;
+  overflow: hidden;
 }
 
 .container {
@@ -21,149 +22,189 @@
   justify-content: center;
   align-items: center;
   transform-style: preserve-3d;
-  background-color: var(--bg);
+  background: #0A0A0F;
 }
 
 .panelContent {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   width: 100%;
-  max-width: 1400px;
-  padding: 0 5vw;
-  gap: 5vw;
+  max-width: 1300px;
+  padding: 0 6vw;
+  gap: 6vw;
 }
 
+/* INFO SIDE */
 .infoCol {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-width: 600px;
 }
 
 .number {
   font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  color: rgba(240, 237, 230, 0.3);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 7vw, 6rem);
-  color: var(--text-white);
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  color: #F0EDE6;
   line-height: 1;
+  letter-spacing: -0.02em;
 }
 
 .stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .stackItem {
   font-family: var(--font-body);
-  font-size: 0.7rem;
-  padding: 0.3rem 0.8rem;
-  background: rgba(232, 255, 71, 0.05);
-  border: 1px solid rgba(232, 255, 71, 0.1);
-  border-radius: 4px;
-  color: var(--lime);
+  font-size: 0.65rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(232, 255, 71, 0.15);
+  border-radius: 999px;
+  color: rgba(232, 255, 71, 0.7);
+  letter-spacing: 0.05em;
 }
 
 .desc {
   font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--text-muted);
-  line-height: 1.6;
+  font-size: 0.95rem;
+  color: rgba(240, 237, 230, 0.45);
+  line-height: 1.65;
+  max-width: 420px;
 }
 
 .actions {
   display: flex;
   gap: 2rem;
-  margin-top: 1rem;
   align-items: center;
+  margin-top: 0.5rem;
 }
 
-.btnPrimary {
-  padding: 0.8rem 2rem;
-  border: 1px solid var(--lime);
-  color: var(--lime);
+.btnLive {
+  padding: 0.75rem 1.75rem;
+  border: 1px solid #E8FF47;
+  color: #E8FF47;
   text-decoration: none;
   font-family: var(--font-body);
+  font-size: 0.72rem;
   font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.25s, color 0.25s;
 }
 
-.btnPrimary:hover {
-  background-color: var(--lime);
-  color: #000;
+.btnLive:hover {
+  background: #E8FF47;
+  color: #0A0A0F;
 }
 
-.btnSecondary {
-  color: var(--text-white);
+.btnGh {
+  color: rgba(240, 237, 230, 0.5);
   text-decoration: none;
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  transition: opacity 0.3s;
+  font-size: 0.85rem;
+  transition: color 0.25s;
+  letter-spacing: 0.05em;
 }
 
-.btnSecondary:hover {
-  opacity: 0.7;
+.btnGh:hover {
+  color: #F0EDE6;
 }
 
+/* VISUAL SIDE */
 .visualCol {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.imageCard {
+/* LANDSCAPE — CuraLink, SafeDrive */
+.frameWrap {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 540px;
 }
 
-.projectImage {
+.frameWrap img {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  border: 1px solid rgba(232, 255, 71, 0.1);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  border: 1px solid rgba(232, 255, 71, 0.08);
+  display: block;
+}
+
+/* PORTRAIT — CodePilot mobile app */
+.phoneWrap {
   position: relative;
+  width: 220px;
+  margin: 0 auto;
+}
+
+.phoneShell {
+  position: relative;
+  border: 2px solid rgba(240, 237, 230, 0.12);
+  border-radius: 32px;
+  padding: 12px 8px;
+  background: rgba(20, 20, 26, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(232, 255, 71, 0.06),
+    0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.phoneNotch {
+  width: 60px;
+  height: 6px;
+  background: rgba(240, 237, 230, 0.08);
+  border-radius: 999px;
+  margin: 0 auto 8px;
+}
+
+.phoneScreen {
+  width: 100%;
+  aspect-ratio: 9/16;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #111;
+}
+
+.phoneScreen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .imageGlow {
   position: absolute;
-  top: 50%;
+  bottom: -20px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  height: 80%;
-  background: var(--lime);
-  filter: blur(100px);
+  transform: translateX(-50%);
+  width: 70%;
+  height: 40px;
+  background: #E8FF47;
+  filter: blur(50px);
   opacity: 0.08;
-  z-index: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 900px) {
   .panelContent {
-    flex-direction: column-reverse;
+    grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 2.5rem;
+    padding: 0 6vw;
+    overflow-y: auto;
   }
-  .infoCol {
-    align-items: center;
-  }
-  .stack {
-    justify-content: center;
-  }
-  .imageCard {
-    max-width: 400px;
-  }
+  .infoCol { align-items: center; }
+  .stack { justify-content: center; }
+  .phoneWrap { width: 160px; }
 }

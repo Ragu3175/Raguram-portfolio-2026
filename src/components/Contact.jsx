@@ -146,7 +146,7 @@ function TerminalBlock() {
   useEffect(() => {
     let timeouts = []
     
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: containerRef.current,
       start: 'top 85%',
       onEnter: () => {
@@ -163,24 +163,27 @@ function TerminalBlock() {
             currentText[currentLineIdx] = targetLine.substring(0, currentCharIdx + 1);
             setTypedLines([...currentText]);
             currentCharIdx++;
-            timeouts.push(setTimeout(typeChar, Math.random() * 10 + 5)); 
+            timeouts.push(setTimeout(typeChar, Math.random() * 5 + 2)); 
           } else {
             currentLineIdx++;
             currentCharIdx = 0;
             if (currentLineIdx < terminalLines.length) {
               currentText.push("");
               setTypedLines([...currentText]);
-              timeouts.push(setTimeout(typeChar, 100));
+              timeouts.push(setTimeout(typeChar, 40));
             }
           }
         };
 
-        timeouts.push(setTimeout(typeChar, 200));
+        timeouts.push(setTimeout(typeChar, 50));
       },
       once: true
     })
 
-    return () => timeouts.forEach(t => clearTimeout(t))
+    return () => {
+      timeouts.forEach(t => clearTimeout(t));
+      st.kill();
+    }
   }, [])
 
   return (
