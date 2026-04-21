@@ -14,44 +14,38 @@ const Transition = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.set(headlineRef.current, { opacity: 0, y: 30 });
+      gsap.set(countersRef.current, { opacity: 0 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=200%',
+          end: '+=250%',
           pin: true,
-          scrub: 1.2,
+          scrub: 1,
         },
       });
 
-      // Headline fades in as you scroll
-      tl.to(headlineRef.current,
-        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
-      );
+      tl.to(headlineRef.current, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+      tl.to(countersRef.current, { opacity: 1, duration: 0.4, ease: 'power2.out' }, '>-0.1');
 
-      // Counters fade in
-      tl.to(countersRef.current,
-        { opacity: 1, duration: 0.8, ease: 'power2.out' },
-        '-=0.3'
-      );
-
-      // Numbers count up
       const counts = { projects: 0, years: 0 };
       tl.to(counts, {
         projects: 27,
         years: 3,
-        duration: 1.2,
-        ease: 'power1.out',
+        duration: 0.7,
+        ease: 'power1.inOut',
         onUpdate: () => {
-          if (proj.current)
-            proj.current.textContent = Math.floor(counts.projects) + '+';
-          if (yrs.current)
-            yrs.current.textContent = Math.floor(counts.years);
+          if (proj.current) proj.current.textContent = Math.floor(counts.projects) + '+';
+          if (yrs.current) yrs.current.textContent = Math.floor(counts.years);
         },
       }, '<');
 
-    }, sectionRef);
+      // Hold at end so user can read
+      tl.to({}, { duration: 0.5 });
 
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 

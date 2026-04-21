@@ -46,7 +46,7 @@ function App() {
     // Wait one frame for React to commit the new sections to DOM
     const id = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 150);
+    }, 500);
     return () => clearTimeout(id);
   }, [loadingFinished]);
 

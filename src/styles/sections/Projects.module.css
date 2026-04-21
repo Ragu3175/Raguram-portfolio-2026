@@ -23,6 +23,9 @@
   align-items: center;
   transform-style: preserve-3d;
   background: #0A0A0F;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .panelContent {
@@ -33,6 +36,8 @@
   max-width: 1300px;
   padding: 0 6vw;
   gap: 6vw;
+  position: relative;
+  z-index: 1;
 }
 
 /* INFO SIDE */

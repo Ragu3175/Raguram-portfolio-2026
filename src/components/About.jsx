@@ -23,7 +23,16 @@ const About = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Photo parallax — drifts at 0.3x scroll speed
+
+      // Set initial states
+      gsap.set(tagRef.current, { opacity: 0 });
+      gsap.set(nameRef.current, { opacity: 0, y: 30 });
+      gsap.set(bioRef.current, { opacity: 0 });
+      gsap.set(statsRef.current, { opacity: 0 });
+      gsap.set(textRefs.current, { opacity: 0 });
+      gsap.set(wipeRefs.current, { width: '0%' });
+
+      // Photo parallax — unchanged
       gsap.to(photoRef.current, {
         yPercent: -15,
         ease: 'none',
@@ -35,73 +44,45 @@ const About = () => {
         },
       });
 
-      // Section enter animations
+      // PIN the section for the full reveal sequence
+      // This gives the user 200vh of scroll to read everything
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 65%',
-          toggleActions: 'play none none reverse',
+          start: 'top top',
+          end: '+=200%',
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
         },
       });
 
-      // Tag line
-      tl.to(tagRef.current, { opacity: 1, duration: 0.5, ease: 'power2.out' });
+      // Tag + Name
+      tl.to(tagRef.current, { opacity: 1, duration: 0.3 });
+      tl.to(nameRef.current, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '<+=0.1');
 
-      // Name
-      tl.to(nameRef.current,
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
-        '-=0.2'
-      );
-
-      // Photo fade in + Iris animation
+      // Photo iris open
       tl.fromTo(photoRef.current,
-        { 
-          opacity: 0, 
-          y: 30,
-          clipPath: 'circle(0% at 50% 50%)' 
-        },
-        { 
-          opacity: 1, 
-          y: 0, 
-          clipPath: 'circle(100% at 50% 50%)',
-          duration: 1.2, 
-          ease: 'power4.inOut' 
-        },
+        { opacity: 0, clipPath: 'circle(0% at 50% 50%)' },
+        { opacity: 1, clipPath: 'circle(100% at 50% 50%)', duration: 0.5, ease: 'power4.inOut' },
         '<'
       );
 
-      // Line wipe + text reveal for each statement
-      // Wipe sweeps in, then out, leaving text visible behind it
+      // Line wipe + text for each statement
       STATEMENTS.forEach((_, i) => {
         const wipe = wipeRefs.current[i];
         const text = textRefs.current[i];
-        const delay = i * 0.15;
-
-        tl.to(wipe,
-          { width: '100%', duration: 0.4, ease: 'power3.inOut' },
-          `>-=0.1+=${delay}`
-        );
-        tl.to(text,
-          { opacity: 1, duration: 0.01 },
-          '>'
-        );
-        tl.to(wipe,
-          { left: '100%', duration: 0.4, ease: 'power3.inOut' },
-          '>'
-        );
+        tl.to(wipe, { width: '100%', duration: 0.25, ease: 'power3.inOut' }, i === 0 ? '>-0.1' : '>');
+        tl.to(text, { opacity: 1, duration: 0.01 }, '>');
+        tl.to(wipe, { left: '100%', duration: 0.25, ease: 'power3.inOut' }, '>');
       });
 
-      // Bio
-      tl.to(bioRef.current,
-        { opacity: 1, duration: 0.8, ease: 'power2.out' },
-        '>-=0.2'
-      );
+      // Bio + Stats
+      tl.to(bioRef.current, { opacity: 1, duration: 0.3 }, '>-0.1');
+      tl.to(statsRef.current, { opacity: 1, duration: 0.3 }, '<+=0.1');
 
-      // Stats
-      tl.to(statsRef.current,
-        { opacity: 1, duration: 0.6, ease: 'power2.out' },
-        '>-=0.4'
-      );
+      // Hold so user can read
+      tl.to({}, { duration: 0.4 });
 
     }, sectionRef);
 
@@ -133,8 +114,7 @@ const About = () => {
             02 · About
           </span>
 
-          <h2 ref={nameRef} className={styles.name}
-              style={{ transform: 'translateY(20px)' }}>
+          <h2 ref={nameRef} className={styles.name}>
             RAGURAM R
           </h2>
 

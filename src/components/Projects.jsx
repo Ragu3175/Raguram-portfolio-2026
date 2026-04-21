@@ -48,6 +48,12 @@ const Projects = () => {
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray(`.${styles.panel}`);
 
+      // Hide panels 2+ on mount
+      panels.forEach((panel, i) => {
+        if (i === 0) return;
+        gsap.set(panel, { y: '100vh', opacity: 0 });
+      });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
