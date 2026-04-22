@@ -43,11 +43,21 @@ function App() {
   // Fix 2: Refresh ScrollTrigger after sections mount
   useEffect(() => {
     if (!loadingFinished) return;
-    // Wait one frame for React to commit the new sections to DOM
+    // Wait for React to commit the new sections to DOM
     const id = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 500);
-    return () => clearTimeout(id);
+    }, 1200);
+
+    // Also refresh on resize to handle dynamic layout shifts
+    const resizeObserver = new ResizeObserver(() => {
+      ScrollTrigger.refresh();
+    });
+    resizeObserver.observe(document.body);
+
+    return () => {
+      clearTimeout(id);
+      resizeObserver.disconnect();
+    };
   }, [loadingFinished]);
 
   const handleHeroReady = useCallback(() => {

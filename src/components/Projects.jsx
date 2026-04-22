@@ -24,6 +24,7 @@ const PROJECTS = [
       c3: '232, 255, 71',  // lime accent
     },
     bgTint: 'rgba(0, 180, 120, 0.03)',
+    glowRgba: 'rgba(0, 180, 140, 0.45)',
   },
   {
     id: '02',
@@ -44,6 +45,7 @@ const PROJECTS = [
     },
     bgTint: 'rgba(100, 100, 255, 0.03)',
     isMobile: true,
+    glowRgba: 'rgba(100, 80, 255, 0.45)',
   },
   {
     id: '03',
@@ -63,6 +65,7 @@ const PROJECTS = [
       c3: '255, 200, 80',  // gold accent
     },
     bgTint: 'rgba(255, 140, 0, 0.03)',
+    glowRgba: 'rgba(255, 140, 0, 0.45)',
   },
 ];
 
@@ -219,7 +222,7 @@ const Projects = () => {
                       alt={p.name}
                     />
                     <div className={styles.cardGlow}
-                      style={{ '--glow': p.mesh.c1 }}
+                      style={{ background: p.glowRgba, filter: 'blur(35px)' }}
                     />
                   </div>
 

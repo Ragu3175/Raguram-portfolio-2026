@@ -24,31 +24,15 @@ const About = () => {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
 
-      // Set initial states
+      // Initial states
       gsap.set(tagRef.current, { opacity: 0 });
       gsap.set(nameRef.current, { opacity: 0, y: 30 });
       gsap.set(bioRef.current, { opacity: 0 });
       gsap.set(statsRef.current, { opacity: 0 });
       gsap.set(textRefs.current, { opacity: 0 });
-      gsap.set(wipeRefs.current, { xPercent: -101 });
-      gsap.set(photoRef.current, { opacity: 0, scale: 0.92 });
+      gsap.set(wipeRefs.current, { scaleX: 0, transformOrigin: 'left center' });
+      gsap.set(photoRef.current, { opacity: 0, scale: 0.95 });
 
-
-
-      // Photo parallax
-      gsap.to(photoRef.current, {
-        yPercent: -15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-
-      // PIN the section for the full reveal sequence
-      // This gives the user 200vh of scroll to read everything
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -60,27 +44,44 @@ const About = () => {
         },
       });
 
-      tl.to(photoRef.current, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' });
+      // Photo fades in first
+      tl.to(photoRef.current, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
+
+      // Photo parallax via separate scrub (no conflict — different property)
+      gsap.to(photoRef.current, {
+        yPercent: -15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
 
       // Tag + Name
-      tl.to(tagRef.current, { opacity: 1, duration: 0.3 });
-      tl.to(nameRef.current, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '<+=0.1');
+      tl.to(tagRef.current, { opacity: 1, duration: 0.2 }, '>');
+      tl.to(nameRef.current, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' }, '<+=0.1');
 
-      // Line wipe + text for each statement
+      // Each statement: wipe grows left→right, text appears, wipe shrinks right→offscreen
       STATEMENTS.forEach((_, i) => {
         const wipe = wipeRefs.current[i];
         const text = textRefs.current[i];
-        tl.to(wipe, { xPercent: 0, duration: 0.2, ease: 'power3.inOut' }, i === 0 ? '>-0.1' : '>');
-        tl.to(text, { opacity: 1, duration: 0.01 }, '>-0.05');
-        tl.to(wipe, { xPercent: 101, duration: 0.2, ease: 'power3.inOut' }, '>');
+        // Wipe grows from left
+        tl.to(wipe, { scaleX: 1, duration: 0.2, ease: 'power3.inOut' }, '>');
+        // Text reveals (wipe is fully covering)
+        tl.set(text, { opacity: 1 }, '>');
+        // Wipe exits to right — change transformOrigin then scaleX back to 0
+        tl.set(wipe, { transformOrigin: 'right center' }, '>');
+        tl.to(wipe, { scaleX: 0, duration: 0.2, ease: 'power3.inOut' }, '>');
       });
 
       // Bio + Stats
-      tl.to(bioRef.current, { opacity: 1, duration: 0.3 }, '>-0.1');
-      tl.to(statsRef.current, { opacity: 1, duration: 0.3 }, '<+=0.1');
+      tl.to(bioRef.current, { opacity: 1, duration: 0.25 }, '>');
+      tl.to(statsRef.current, { opacity: 1, duration: 0.25 }, '<+=0.1');
 
-      // Hold so user can read
-      tl.to({}, { duration: 0.4 });
+      // Hold
+      tl.to({}, { duration: 0.5 });
 
     }, sectionRef);
 

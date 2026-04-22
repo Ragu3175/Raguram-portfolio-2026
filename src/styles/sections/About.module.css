@@ -116,9 +116,11 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%;
+  width: 100%;          /* full width always — scaleX controls reveal */
   background: #E8FF47;
   z-index: 1;
+  transform-origin: left center;
+  transform: scaleX(0); /* start hidden */
 }
 
 .statementText {

@@ -225,10 +225,9 @@
   left: 5%;
   width: 90%;
   height: 80px;
-  background: rgba(var(--glow), 0.45);
-  filter: blur(35px);
   pointer-events: none;
   border-radius: 50%;
+  /* background and filter now set inline per-project */
 }
 
 /* Thumbnail cards — peeking behind */

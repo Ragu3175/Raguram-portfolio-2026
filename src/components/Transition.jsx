@@ -29,7 +29,7 @@ const Transition = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=100%', // Snappy scroll distance
+          end: '+=200%',   // was 250%
           pin: true,
           scrub: 1,
           anticipatePin: 1,
