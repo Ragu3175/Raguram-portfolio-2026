@@ -30,22 +30,10 @@ const About = () => {
       gsap.set(bioRef.current, { opacity: 0 });
       gsap.set(statsRef.current, { opacity: 0 });
       gsap.set(textRefs.current, { opacity: 0 });
-      gsap.set(wipeRefs.current, { width: '0%' });
-      gsap.set(photoRef.current, { opacity: 0, scale: 0.9, clipPath: 'circle(0% at 50% 50%)' });
+      gsap.set(wipeRefs.current, { xPercent: -101 });
+      gsap.set(photoRef.current, { opacity: 0, scale: 0.92 });
 
-      // Reveal photo as section enters viewport
-      gsap.to(photoRef.current, {
-        opacity: 1,
-        scale: 1,
-        clipPath: 'circle(100% at 50% 50%)',
-        duration: 1.2,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-      });
+
 
       // Photo parallax
       gsap.to(photoRef.current, {
@@ -72,6 +60,8 @@ const About = () => {
         },
       });
 
+      tl.to(photoRef.current, { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' });
+
       // Tag + Name
       tl.to(tagRef.current, { opacity: 1, duration: 0.3 });
       tl.to(nameRef.current, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '<+=0.1');
@@ -80,9 +70,9 @@ const About = () => {
       STATEMENTS.forEach((_, i) => {
         const wipe = wipeRefs.current[i];
         const text = textRefs.current[i];
-        tl.to(wipe, { width: '100%', duration: 0.25, ease: 'power3.inOut' }, i === 0 ? '>-0.1' : '>');
-        tl.to(text, { opacity: 1, duration: 0.01 }, '>');
-        tl.to(wipe, { left: '100%', duration: 0.25, ease: 'power3.inOut' }, '>');
+        tl.to(wipe, { xPercent: 0, duration: 0.2, ease: 'power3.inOut' }, i === 0 ? '>-0.1' : '>');
+        tl.to(text, { opacity: 1, duration: 0.01 }, '>-0.05');
+        tl.to(wipe, { xPercent: 101, duration: 0.2, ease: 'power3.inOut' }, '>');
       });
 
       // Bio + Stats
@@ -98,8 +88,9 @@ const About = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className={styles.section}>
-      <div className={styles.inner}>
+    <section id="about" className={styles.section}>
+      <div ref={sectionRef} className={styles.pinWrapper}>
+        <div className={styles.inner}>
 
         {/* LEFT — Photo */}
         <div className={styles.photoCol}>
@@ -167,8 +158,9 @@ const About = () => {
 
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 };
 
 export default About;
