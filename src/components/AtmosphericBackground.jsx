@@ -8,6 +8,7 @@ const AtmosphericBackground = () => {
   const node1Ref = useRef(null);
   const node2Ref = useRef(null);
   const node3Ref = useRef(null);
+  const node4Ref = useRef(null); // Added node 4
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -41,8 +42,17 @@ const AtmosphericBackground = () => {
         ease: "sine.inOut"
       });
 
+      gsap.to(node4Ref.current, {
+        x: '-=25',
+        y: '+=25',
+        duration: driftSpeed * 1.1,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
       // 2. Scroll-synced parallax
-      gsap.to([node1Ref.current, node2Ref.current, node3Ref.current], {
+      gsap.to([node1Ref.current, node2Ref.current, node3Ref.current, node4Ref.current], {
         scrollTrigger: {
           trigger: document.body,
           start: "top top",
@@ -60,10 +70,12 @@ const AtmosphericBackground = () => {
 
   return (
     <div ref={containerRef} className={styles.wrapper}>
+      <div className={styles.aurora} /> {/* Added aurora div */}
       <div className={styles.glowContainer}>
         <div ref={node1Ref} className={`${styles.glowNode} ${styles.node1}`} />
         <div ref={node2Ref} className={`${styles.glowNode} ${styles.node2}`} />
         <div ref={node3Ref} className={`${styles.glowNode} ${styles.node3}`} />
+        <div ref={node4Ref} className={`${styles.glowNode} ${styles.node4}`} /> {/* Added node 4 */}
       </div>
       <div className={styles.vignette} />
       <div className={styles.noise} />

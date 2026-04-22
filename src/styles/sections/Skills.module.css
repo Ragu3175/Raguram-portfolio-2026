@@ -72,6 +72,10 @@
 }
 
 .card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  position: relative;
+  overflow: hidden;
   border: 1px solid rgba(240, 237, 230, 0.07);
   border-radius: 6px;
   padding: 1rem;
@@ -83,12 +87,34 @@
   cursor: default;
 }
 
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    180px circle at var(--mouse-x) var(--mouse-y),
+    rgba(232, 255, 71, 0.08),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
 .card:hover {
   border-color: rgba(232, 255, 71, 0.25);
   transform: translateY(-3px);
 }
 
 .skillName {
+  position: relative;
+  z-index: 1;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -97,6 +123,8 @@
 
 /* Proficiency Bar */
 .barTrack {
+  position: relative;
+  z-index: 1;
   height: 2px;
   background: rgba(240, 237, 230, 0.08);
   border-radius: 999px;
@@ -115,6 +143,8 @@
 }
 
 .levelLabel {
+  position: relative;
+  z-index: 1;
   font-size: 0.55rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;

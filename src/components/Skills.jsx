@@ -53,6 +53,18 @@ const Skills = () => {
     return SKILLS_DATA.filter(skill => skill.category === activeTab);
   }, [activeTab]);
 
+  const handleMouseMove = (e) => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.querySelectorAll('[data-skill-card]');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
+  };
+
   // Reset refs array on each render
   cardsRef.current = cardsRef.current.slice(0, filteredSkills.length);
 
@@ -141,12 +153,13 @@ const Skills = () => {
         ))}
       </div>
 
-      <div className={styles.grid} ref={gridRef}>
+      <div className={styles.grid} ref={gridRef} onMouseMove={handleMouseMove}>
         {filteredSkills.map((skill, i) => (
           <div 
             key={skill.name} 
             className={styles.card}
             ref={el => cardsRef.current[i] = el}
+            data-skill-card
           >
             <span className={styles.skillName}>{skill.name}</span>
             <div className={styles.barTrack}>

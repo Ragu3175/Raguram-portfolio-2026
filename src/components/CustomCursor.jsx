@@ -7,8 +7,38 @@ const CustomCursor = () => {
   const ringRef = useRef(null);
 
   useEffect(() => {
+    // Track which section the cursor is in
+    const workSection = document.getElementById('work');
+
+    // Torch overlay element (projects section)
+    const torch = document.createElement('div');
+    torch.style.cssText = `
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      background: radial-gradient(
+        200px circle at var(--tx, 50%) var(--ty, 50%),
+        rgba(232, 255, 71, 0.06),
+        transparent 70%
+      );
+    `;
+    document.body.appendChild(torch);
+
     const moveCursor = (e) => {
       const { clientX: x, clientY: y } = e;
+      
+      torch.style.setProperty('--tx', `${x}px`);
+      torch.style.setProperty('--ty', `${y}px`);
+
+      const inWork = workSection && (() => {
+        const r = workSection.getBoundingClientRect();
+        return y >= r.top && y <= r.bottom;
+      })();
+
+      torch.style.opacity = inWork ? '1' : '0';
       
       // Fixed dot follows instantly
       gsap.to(dotRef.current, {
@@ -72,6 +102,7 @@ const CustomCursor = () => {
       window.removeEventListener('mousemove', moveCursor);
       document.body.removeEventListener('mouseenter', handleDelegate, true);
       document.body.removeEventListener('mouseleave', handleDelegateLeave, true);
+      if (torch.parentNode) document.body.removeChild(torch);
     };
   }, []);
 

@@ -62,7 +62,7 @@ function App() {
     <main style={{ backgroundColor: '#0a0a0f', minHeight: '100vh', position: 'relative' }}>
       <StarField />
       <CustomCursor />
-      <div className="grid-overlay" /> {/* Note: swapped grain-overlay for grid-overlay as per prompt */}
+
       <Atmosphere isActive={loadingFinished} />
 
       {/* Hero: Always rendered but possibly covered by Loader */}

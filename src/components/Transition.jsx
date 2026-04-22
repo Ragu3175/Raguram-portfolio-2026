@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from '../styles/sections/Transition.module.css';
+import { scrambleText } from '../utils/scramble';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,6 +45,23 @@ const Transition = () => {
 
       // Hold at end so user can read
       tl.to({}, { duration: 0.5 });
+
+      // Trigger scramble when headline becomes visible
+      ScrollTrigger.create({
+        trigger: headlineRef.current,
+        start: 'top 80%',
+        onEnter: () => {
+          const el = headlineRef.current;
+          const final = 'FROM IDEA TO DEPLOYMENT.';
+          const originalHTML = el.innerHTML;
+          scrambleText(el, final, 1400);
+          
+          setTimeout(() => {
+            if (el) el.innerHTML = originalHTML;
+          }, 1450);
+        },
+        once: true,
+      });
 
     }, sectionRef);
     return () => ctx.revert();

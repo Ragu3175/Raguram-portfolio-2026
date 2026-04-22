@@ -31,8 +31,23 @@ const About = () => {
       gsap.set(statsRef.current, { opacity: 0 });
       gsap.set(textRefs.current, { opacity: 0 });
       gsap.set(wipeRefs.current, { width: '0%' });
+      gsap.set(photoRef.current, { opacity: 0, scale: 0.9, clipPath: 'circle(0% at 50% 50%)' });
 
-      // Photo parallax — unchanged
+      // Reveal photo as section enters viewport
+      gsap.to(photoRef.current, {
+        opacity: 1,
+        scale: 1,
+        clipPath: 'circle(100% at 50% 50%)',
+        duration: 1.2,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      // Photo parallax
       gsap.to(photoRef.current, {
         yPercent: -15,
         ease: 'none',
@@ -60,13 +75,6 @@ const About = () => {
       // Tag + Name
       tl.to(tagRef.current, { opacity: 1, duration: 0.3 });
       tl.to(nameRef.current, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '<+=0.1');
-
-      // Photo iris open
-      tl.fromTo(photoRef.current,
-        { opacity: 0, clipPath: 'circle(0% at 50% 50%)' },
-        { opacity: 1, clipPath: 'circle(100% at 50% 50%)', duration: 0.5, ease: 'power4.inOut' },
-        '<'
-      );
 
       // Line wipe + text for each statement
       STATEMENTS.forEach((_, i) => {
@@ -101,7 +109,6 @@ const About = () => {
               src="/profile.png"
               alt="Raguram R"
               className={styles.photo}
-              style={{ opacity: 0 }}
             />
             <div className={styles.photoGlow} />
           </div>

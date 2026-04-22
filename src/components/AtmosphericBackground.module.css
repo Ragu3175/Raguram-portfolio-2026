@@ -21,10 +21,16 @@
 
 .glowNode {
   position: absolute;
-  border-radius: 50%;
   filter: blur(180px);
   opacity: 0.4; /* Universal boost */
-  will-change: transform, opacity;
+  will-change: transform, opacity, border-radius;
+  animation: morphBlob 20s ease-in-out infinite alternate;
+}
+
+@keyframes morphBlob {
+  0% { border-radius: 50%; }
+  50% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+  100% { border-radius: 50%; }
 }
 
 /* Specific node variations */
@@ -34,6 +40,7 @@
   background: radial-gradient(circle, #1A1A22 0%, transparent 70%);
   top: -10%;
   left: -20%;
+  animation-delay: 0s;
 }
 
 .node2 {
@@ -42,6 +49,7 @@
   background: radial-gradient(circle, #12121A 0%, transparent 70%);
   bottom: -15%;
   right: -10%;
+  animation-delay: 5s;
 }
 
 .node3 {
@@ -50,7 +58,35 @@
   background: radial-gradient(circle, #E8FF47 0%, transparent 60%); /* Focus the lime */
   top: 35%;
   left: 35%;
-  opacity: 0.12; /* Significantly boosted from 0.03 */
+  opacity: 0.18; /* Increased opacity from 0.12 */
+  animation-delay: 10s;
+}
+
+.node4 {
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(80, 220, 200, 0.06) 0%, transparent 60%);
+  bottom: -10%;
+  right: -20%;
+  filter: blur(200px);
+  animation-delay: 15s;
+}
+
+.aurora {
+  position: absolute;
+  top: -60px;
+  left: -10%;
+  width: 120%;
+  height: 220px;
+  background: linear-gradient(180deg, transparent 0%, rgba(232,255,71,0.025) 40%, rgba(100,220,180,0.018) 70%, transparent 100%);
+  filter: blur(40px);
+  opacity: 0.03;
+  animation: auroraDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift {
+  0% { transform: translateX(-3%) scaleX(1); }
+  100% { transform: translateX(2%) scaleX(1.05); }
 }
 
 /* Film Grain Overlay - keeps the cinematic feel */

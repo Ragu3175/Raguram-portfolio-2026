@@ -37,17 +37,6 @@ section {
   background: var(--bg) !important;
 }
 
-/* Grid Overlay Utility */
-.grid-overlay {
-  position: fixed;
-  inset: 0;
-  background-image: 
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 80px 80px;
-  pointer-events: none;
-  z-index: 1;
-}
 
 h1, h2, h3, .clash {
   font-family: var(--font-display);
