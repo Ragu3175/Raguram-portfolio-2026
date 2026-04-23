@@ -221,10 +221,10 @@ const Projects = () => {
                       src={p.images[activeImages[p.id]]}
                       alt={p.name}
                     />
-                    <div className={styles.cardGlow}
-                      style={{ background: p.glowRgba, filter: 'blur(35px)' }}
-                    />
                   </div>
+                  <div className={styles.cardGlow}
+                    style={{ background: p.glowRgba, filter: 'blur(35px)' }}
+                  />
 
                   {/* Thumbnail dots navigation */}
                   <div className={styles.thumbDots}>

@@ -218,16 +218,15 @@
   transform: scale(1.03);
 }
 
-/* Glow under main card */
 .cardGlow {
   position: absolute;
-  bottom: -40px;
+  bottom: -20px;
   left: 5%;
   width: 90%;
-  height: 80px;
+  height: 60px;
   pointer-events: none;
   border-radius: 50%;
-  /* background and filter now set inline per-project */
+  z-index: 0;
 }
 
 /* Thumbnail cards — peeking behind */
