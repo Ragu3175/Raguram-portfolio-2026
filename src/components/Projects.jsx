@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from '../styles/sections/Projects.module.css';
@@ -9,8 +9,11 @@ const PROJECTS = [
   {
     id: '01',
     name: 'CURALINK AI',
+    type: 'Medical research assistant',
+    year: '2026',
     stack: ['React', 'Node.js', 'MongoDB', 'Groq', 'PubMed API'],
     desc: 'Medical AI research assistant with parallel retrieval, re-ranking, and multi-turn memory.',
+    proof: ['Parallel retrieval', 'PubMed context', 'Memory layer'],
     live: 'https://curalink-ai-gilt.vercel.app/',
     github: 'https://github.com/Ragu3175/Curalink-AI',
     images: [
@@ -29,8 +32,11 @@ const PROJECTS = [
   {
     id: '02',
     name: 'CODEPILOT',
+    type: 'Mobile AI code editor',
+    year: '2026',
     stack: ['React Native', 'Expo', 'Node.js', 'Gemini', 'Groq'],
     desc: 'Mobile AI code editor with file tree, diff viewer, and 20-step undo stack.',
+    proof: ['Diff viewer', 'Undo stack', 'AI edit flow'],
     live: 'https://github.com/Ragu3175/Mobile-AiCode-Editor',
     github: 'https://github.com/Ragu3175/Mobile-AiCode-Editor',
     images: [
@@ -50,8 +56,11 @@ const PROJECTS = [
   {
     id: '03',
     name: 'SAFEDRIVE AI',
+    type: 'Vehicle telemetry system',
+    year: '2026',
     stack: ['React', 'Node.js', 'ESP32', 'Render', 'Vercel'],
     desc: 'Real-time vehicle telemetry dashboard with live sensor data and violation detection.',
+    proof: ['Live sensors', 'Violation logic', 'Cloud dashboard'],
     live: 'https://final-year-project-three-red.vercel.app/',
     github: 'https://github.com/Ragu3175',
     images: [
@@ -176,7 +185,11 @@ const Projects = () => {
 
               {/* LEFT — Info */}
               <div className={styles.infoCol}>
-                <span className={styles.number}>{p.id}</span>
+                <div className={styles.metaRow}>
+                  <span className={styles.number}>{p.id}</span>
+                  <span>{p.type}</span>
+                  <span>{p.year}</span>
+                </div>
                 <h2 className={styles.name} data-project-name>{p.name}</h2>
                 <div className={styles.stack}>
                   {p.stack.map(s => (
@@ -184,6 +197,11 @@ const Projects = () => {
                   ))}
                 </div>
                 <p className={styles.desc}>{p.desc}</p>
+                <div className={styles.proofGrid}>
+                  {p.proof.map(item => (
+                    <span key={item}>{item}</span>
+                  ))}
+                </div>
                 <div className={styles.actions}>
                   <a href={p.live} target="_blank" rel="noreferrer" className={styles.btnLive}>
                     View Live
@@ -197,6 +215,11 @@ const Projects = () => {
               {/* RIGHT — Stacked card images */}
               <div className={styles.visualCol}>
                 <div className={`${styles.cardStack} ${p.isMobile ? styles.mobileStack : ''}`}>
+
+                  <div className={styles.visualLabel}>
+                    <span>Preview</span>
+                    <strong>{String(activeImages[p.id] + 1).padStart(2, '0')} / {String(p.images.length).padStart(2, '0')}</strong>
+                  </div>
 
                   {/* Background thumbnail cards — dynamically filter out the active image */}
                   {p.images
@@ -217,6 +240,16 @@ const Projects = () => {
                     className={styles.mainCard}
                     onClick={() => handleThumbClick(p.id, 0)}
                   >
+                    {!p.isMobile && (
+                      <div className={styles.browserBar}>
+                        <div className={styles.browserDots}>
+                          <span />
+                          <span />
+                          <span />
+                        </div>
+                        <span className={styles.browserUrl}>{p.name.toLowerCase().replaceAll(' ', '-')}.app</span>
+                      </div>
+                    )}
                     <img
                       src={p.images[activeImages[p.id]]}
                       alt={p.name}
