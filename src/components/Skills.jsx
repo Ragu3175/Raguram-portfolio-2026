@@ -70,15 +70,33 @@ const Skills = () => {
     return SKILLS_DATA.filter(skill => skill.category === activeTab);
   }, [activeTab]);
 
-  const handleMouseMove = (e) => {
+  const cardsRectsRef = useRef([]);
+
+  const updateRects = () => {
     if (!gridRef.current) return;
     const cards = gridRef.current.querySelectorAll('[data-skill-card]');
-    cards.forEach(card => {
-      const rect = card.getBoundingClientRect();
+    cardsRectsRef.current = Array.from(cards).map(card => ({
+      el: card,
+      rect: card.getBoundingClientRect()
+    }));
+  };
+
+  useLayoutEffect(() => {
+    updateRects();
+    window.addEventListener('resize', updateRects);
+    window.addEventListener('scroll', updateRects, { passive: true });
+    return () => {
+      window.removeEventListener('resize', updateRects);
+      window.removeEventListener('scroll', updateRects);
+    };
+  }, [filteredSkills]);
+
+  const handleMouseMove = (e) => {
+    cardsRectsRef.current.forEach(({ el, rect }) => {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
+      el.style.setProperty('--mouse-x', `${x}px`);
+      el.style.setProperty('--mouse-y', `${y}px`);
     });
   };
 

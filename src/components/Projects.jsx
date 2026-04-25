@@ -138,14 +138,14 @@ const Projects = () => {
 
       // Mouse move — directional rim light on each panel
       const handleMouseMove = (e) => {
-        panels.forEach(panel => {
-          const rect = panel.getBoundingClientRect();
-          if (rect.top > window.innerHeight || rect.bottom < 0) return;
-          const x = ((e.clientX - rect.left) / rect.width) * 100;
-          const y = ((e.clientY - rect.top) / rect.height) * 100;
-          panel.style.setProperty('--rx', `${x}%`);
-          panel.style.setProperty('--ry', `${y}%`);
-        });
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+        
+        // Use a single set of variables on the container to avoid per-panel updates
+        if (sectionRef.current) {
+          sectionRef.current.style.setProperty('--rx', `${x}%`);
+          sectionRef.current.style.setProperty('--ry', `${y}%`);
+        }
       };
       window.addEventListener('mousemove', handleMouseMove);
 

@@ -4,6 +4,8 @@
   background: #0A0A0F;
   perspective: 1200px;
   overflow: hidden;
+  --rx: 50%;
+  --ry: 50%;
 }
 
 .container {
@@ -23,8 +25,6 @@
   transform-style: preserve-3d;
   background: #0D0D14;
   overflow: hidden;
-  --rx: 50%;
-  --ry: 50%;
 }
 
 /* Directional rim light — follows mouse */

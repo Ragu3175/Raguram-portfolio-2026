@@ -44,7 +44,8 @@ const CustomCursor = () => {
       gsap.to(dotRef.current, {
         x,
         y,
-        duration: 0.1
+        duration: 0.1,
+        overwrite: true
       });
 
       // Ring follows with a lag
@@ -52,7 +53,8 @@ const CustomCursor = () => {
         x,
         y,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power2.out",
+        overwrite: true
       });
     };
 
