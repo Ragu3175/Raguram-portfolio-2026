@@ -42,6 +42,9 @@ const HeroExit = () => {
       // Hold
       tl.to({}, { duration: 0.3 });
 
+      // Ensure it's hidden after animation finishes to prevent bleeding
+      tl.set(sectionRef.current, { autoAlpha: 0 });
+
     }, sectionRef);
 
     return () => ctx.revert();

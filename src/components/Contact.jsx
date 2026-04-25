@@ -160,22 +160,23 @@ function TerminalBlock() {
           const targetLine = terminalLines[currentLineIdx];
           
           if (currentCharIdx < targetLine.length) {
-            currentText[currentLineIdx] = targetLine.substring(0, currentCharIdx + 1);
+            // Type 3 characters at a time for maximum speed
+            currentCharIdx = Math.min(targetLine.length, currentCharIdx + 3);
+            currentText[currentLineIdx] = targetLine.substring(0, currentCharIdx);
             setTypedLines([...currentText]);
-            currentCharIdx++;
-            timeouts.push(setTimeout(typeChar, Math.random() * 5 + 2)); 
+            timeouts.push(setTimeout(typeChar, 1)); 
           } else {
             currentLineIdx++;
             currentCharIdx = 0;
             if (currentLineIdx < terminalLines.length) {
               currentText.push("");
               setTypedLines([...currentText]);
-              timeouts.push(setTimeout(typeChar, 40));
+              timeouts.push(setTimeout(typeChar, 5));
             }
           }
         };
 
-        timeouts.push(setTimeout(typeChar, 50));
+        timeouts.push(setTimeout(typeChar, 5));
       },
       once: true
     })

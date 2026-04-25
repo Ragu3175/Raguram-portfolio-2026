@@ -95,6 +95,18 @@ export default function Hero({ onReady }) {
             y: -80 * p,
             filter: `blur(${p * 4}px)`
           })
+
+          // Fade out the media as we scroll away
+          const media = isMobile ? videoRef.current : canvasRef.current;
+          if (media) {
+            media.style.opacity = String(Math.max(0, 1 - p * 1.2));
+          }
+
+          // Fully hide hero when past it to prevent bleeding/GPU issues
+          if (sectionRef.current) {
+            sectionRef.current.style.visibility = p >= 1 ? 'hidden' : 'visible';
+            sectionRef.current.style.pointerEvents = p >= 1 ? 'none' : 'auto';
+          }
         },
       })
 

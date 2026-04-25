@@ -139,7 +139,11 @@ export default function Process() {
       <div className={styles.shell}>
         <div className={styles.header}>
           <span className={styles.label}>05 / Execution Pipeline</span>
-          <h2 className={styles.heading}>How I turn chaos into shipped software.</h2>
+          <h2 className={styles.heading}>
+            <span>How I turn</span>
+            <span>chaos into</span>
+            <span>shipped software.</span>
+          </h2>
         </div>
 
         <div className={styles.stage}>
@@ -161,39 +165,41 @@ export default function Process() {
             ))}
           </aside>
 
-          <div className={styles.wordStack}>
-            <span className={styles.kicker}>Current Module</span>
-            <div className={styles.phaseViewport}>
-              {PHASES.map((phase, index) => (
-                <div
-                  key={phase.id}
-                  ref={el => phaseRefs.current[index] = el}
-                  className={styles.phaseWord}
-                >
-                  <span>{phase.id}</span>
-                  <h3>{phase.verb}</h3>
-                  <p>{phase.title}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.panel}>
-            <div className={styles.panelTop}>
-              <span>system.trace</span>
-              <span>{activePhase.signal}</span>
+          <div className={styles.focusArea}>
+            <div className={styles.wordStack}>
+              <span className={styles.kicker}>Current Module</span>
+              <div className={styles.phaseViewport}>
+                {PHASES.map((phase, index) => (
+                  <div
+                    key={phase.id}
+                    ref={el => phaseRefs.current[index] = el}
+                    className={styles.phaseWord}
+                  >
+                    <span>{phase.id}</span>
+                    <h3>{phase.verb}</h3>
+                    <p>{phase.title}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className={styles.traceRows}>
-              <TraceRow label="input" value={activePhase.input} />
-              <TraceRow label="decision" value={activePhase.decision} />
-              <TraceRow label="output" value={activePhase.output} />
-            </div>
+            <div className={styles.panel}>
+              <div className={styles.panelTop}>
+                <span>system.trace</span>
+                <span>{activePhase.signal}</span>
+              </div>
 
-            <div className={styles.toolGrid}>
-              {activePhase.tools.map(tool => (
-                <span key={tool}>{tool}</span>
-              ))}
+              <div className={styles.traceRows}>
+                <TraceRow label="input" value={activePhase.input} />
+                <TraceRow label="decision" value={activePhase.decision} />
+                <TraceRow label="output" value={activePhase.output} />
+              </div>
+
+              <div className={styles.toolGrid}>
+                {activePhase.tools.map(tool => (
+                  <span key={tool}>{tool}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
