@@ -36,21 +36,26 @@ const Transition = () => {
         },
       });
 
-      // Words slam in staggered
-      tl.to(wordRefs.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.2,
-        stagger: 0.15,
-        ease: 'power3.out',
-      });
-
-      // Lime underline draws across after all 3 land
+      // Words slam in staggered with cinematic blur and scale
+      tl.fromTo(wordRefs.current, 
+        { opacity: 0, y: 40, filter: 'blur(10px)', scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.2,
+          ease: 'power3.out',
+        }
+      );
+      
+      // Lime underline draws across after words land
       tl.to(lineRef.current, {
         scaleX: 1,
-        duration: 0.4,
-        ease: 'power2.inOut',
-      });
+        duration: 0.6,
+        ease: 'power4.out',
+      }, "-=0.3");
 
       // Just a tiny micro-pause to let the line visually finish before unpinning
       tl.to({}, { duration: 0.1 });

@@ -87,7 +87,11 @@ export default function Hero({ onReady }) {
         scrub: 0.8,
         onUpdate: (self) => {
           const p = self.progress
-          if (overlayRef.current) overlayRef.current.style.opacity = String(0.45 + p * 0.3)
+          if (overlayRef.current) {
+            // Fade to pitch black at the end (p=1)
+            overlayRef.current.style.opacity = String(Math.min(1, 0.45 + p * 0.7));
+            overlayRef.current.style.backgroundColor = `rgba(0, 0, 0, ${p})`;
+          }
           
           const contentOpacity = 1 - (p * 1.5)
           gsap.set([eyebrowRef.current, titleRef.current, subRef.current, ctaRef.current], {
@@ -99,7 +103,10 @@ export default function Hero({ onReady }) {
           // Fade out the media as we scroll away
           const media = isMobile ? videoRef.current : canvasRef.current;
           if (media) {
-            media.style.opacity = String(Math.max(0, 1 - p * 1.2));
+            const mediaOpacity = Math.max(0, 1 - p * 1.5);
+            media.style.opacity = String(mediaOpacity);
+            // Subtle zoom out as we fade to add depth
+            media.style.transform = `scale(${1 - p * 0.05})`;
           }
 
           // Fully hide hero when past it to prevent bleeding/GPU issues

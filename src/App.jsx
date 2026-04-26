@@ -70,7 +70,7 @@ function App() {
   }, []);
 
   return (
-    <main style={{ backgroundColor: '#0a0a0f', minHeight: '100vh', position: 'relative' }}>
+    <main style={{ backgroundColor: '#000000', minHeight: '100vh', position: 'relative' }}>
       <StarField />
       <CustomCursor />
 
