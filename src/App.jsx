@@ -23,23 +23,32 @@ function App() {
   const [isHeroReady, setIsHeroReady] = useState(false);
   const [loadingFinished, setLoadingFinished] = useState(false);
 
+  const [lenis, setLenis] = useState(null);
+ 
   // Fix 1: Initialize Lenis Smooth Scroll (npm version)
   useEffect(() => {
-    const lenis = new Lenis({
+    const instance = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
+ 
+    instance.on('scroll', ScrollTrigger.update);
+    setLenis(instance);
+ 
     const raf = (time) => {
-      lenis.raf(time);
+      instance.raf(time);
       requestAnimationFrame(raf);
     };
     requestAnimationFrame(raf);
-
-    return () => lenis.destroy();
+ 
+    return () => instance.destroy();
   }, []);
+ 
+  const scrollTo = useCallback((target, offset = 0) => {
+    if (lenis) {
+      lenis.scrollTo(target, { offset });
+    }
+  }, [lenis]);
 
   // Fix 2: Refresh ScrollTrigger after sections mount
   useEffect(() => {
@@ -77,7 +86,7 @@ function App() {
       <Atmosphere isActive={loadingFinished} />
 
       {/* Hero: Always rendered but possibly covered by Loader */}
-      <Hero onReady={handleHeroReady} />
+      <Hero onReady={handleHeroReady} scrollTo={scrollTo} />
       
       {loadingFinished && (
         <>

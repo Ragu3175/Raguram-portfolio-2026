@@ -6,7 +6,7 @@ import BlurText from './BlurText'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function Hero({ onReady }) {
+export default function Hero({ onReady, scrollTo }) {
   const [isMobile, setIsMobile] = useState(false)
   const [framesLoaded, setFramesLoaded] = useState(false)
   
@@ -203,7 +203,21 @@ export default function Hero({ onReady }) {
 
       <nav className={styles.nav}>
         {['Work', 'About', 'Contact'].map(item => (
-          <a key={item} href={`#${item.toLowerCase()}`} className={styles.navLink}>{item}</a>
+          <a 
+            key={item} 
+            href={`#${item.toLowerCase()}`} 
+            onClick={(e) => {
+              e.preventDefault();
+              const target = `#${item.toLowerCase()}`;
+              // Landing at 1.95 * innerHeight puts us at the end of the About reveal pin
+              // so the content is fully visible as requested.
+              const offset = item === 'About' ? window.innerHeight * 1.95 : 0;
+              if (scrollTo) scrollTo(target, offset);
+            }}
+            className={styles.navLink}
+          >
+            {item}
+          </a>
         ))}
       </nav>
 
@@ -233,7 +247,7 @@ export default function Hero({ onReady }) {
           />
         </div>
         <p ref={subRef} className={styles.subtitle} style={{ opacity: 0 }}>
-          React · Node · MongoDB · AWS · Docker
+          Building digital horizons where logic meets serenity.
         </p>
         <div ref={ctaRef} className={styles.ctaContainer} style={{ opacity: 0 }}>
           <HoverBtn onClick={() => {}} outline>View Work</HoverBtn>
