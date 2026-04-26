@@ -71,7 +71,7 @@ function App() {
 
   return (
     <main style={{ backgroundColor: '#000000', minHeight: '100vh', position: 'relative' }}>
-      <StarField />
+      {/* <StarField /> */}
       <CustomCursor />
 
       <Atmosphere isActive={loadingFinished} />

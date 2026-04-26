@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger)
 const LINKS = [
   { label: 'GitHub',   href: 'https://github.com/Ragu3175',                      sub: 'Ragu3175'        },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/raguram-r-92504a286',       sub: 'raguram-r'       },
-  { label: 'Resume',   href: '/Raguram_Resume.pdf',                               sub: 'Download PDF', download: true },
+  { label: 'Resume',   href: '/Raguram_R_2026_New_General.pdf',                   sub: 'Download PDF', download: true },
   { label: 'Phone',    href: 'tel:+919489624436',                                 sub: '+91 9489 624436' },
 ]
 
