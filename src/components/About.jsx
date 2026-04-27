@@ -37,7 +37,7 @@ const About = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=200%',
+          end: window.innerWidth < 768 ? '+=120%' : '+=200%',
           pin: true,
           scrub: 1,
           anticipatePin: 1,

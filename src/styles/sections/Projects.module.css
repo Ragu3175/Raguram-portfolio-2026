@@ -484,50 +484,67 @@
   .panelContent {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 4rem;
-    padding: 5rem 6vw 4rem;
-    overflow-y: auto;
-    height: 100vh;
-    align-content: start;
+    gap: 3rem;
+    padding: 6rem 6vw 6rem;
+    height: auto;
+    align-content: center;
+    justify-items: center;
   }
-  .infoCol { align-items: center; }
+  .infoCol { align-items: center; max-width: 100%; }
   .stack { justify-content: center; }
+  .desc { margin: 0 auto; }
   .proofGrid {
     grid-template-columns: 1fr;
     width: 100%;
-    max-width: 360px;
+    max-width: 400px;
   }
   .proofGrid span {
     min-height: auto;
+    padding: 1rem;
     justify-content: center;
     align-items: center;
+    font-size: 0.7rem;
   }
-  .cardStack { max-width: min(84vw, 560px); }
-  .thumbCard1 { right: -12%; }
-  .thumbCard2 { left: -12%; }
+  .cardStack { 
+    max-width: min(90vw, 450px); 
+    aspect-ratio: 4/5; /* More vertical for mobile screens */
+    margin-top: 2rem;
+  }
+  .mainCard img {
+    height: 100%; /* No browser bar on mobile */
+  }
+  .thumbCard1 { right: -5%; width: 70%; top: -10%; }
+  .thumbCard2 { left: -5%; width: 60%; bottom: -10%; }
 }
 
 @media (max-width: 560px) {
   .name {
-    font-size: clamp(3rem, 18vw, 4.8rem);
+    font-size: clamp(2.8rem, 15vw, 4rem);
+    margin-bottom: 0.5rem;
   }
 
   .metaRow {
     justify-content: center;
+    gap: 0.5rem;
   }
 
   .actions {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.8rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 1rem auto 0;
   }
 
   .btnLive,
   .btnGh {
     width: 100%;
     text-align: center;
+    padding: 1rem;
   }
 
   .visualLabel {
-    top: -34px;
+    top: -30px;
+    font-size: 0.5rem;
   }
 }

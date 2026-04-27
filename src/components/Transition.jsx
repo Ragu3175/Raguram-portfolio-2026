@@ -29,7 +29,7 @@ const Transition = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=200%',   // was 250%
+          end: window.innerWidth < 768 ? '+=100%' : '+=200%',
           pin: true,
           scrub: 1,
           anticipatePin: 1,

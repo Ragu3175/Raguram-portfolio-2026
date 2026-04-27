@@ -393,7 +393,7 @@
   }
 
   .heading {
-    font-size: clamp(2.4rem, 12vw, 4rem);
+    font-size: clamp(1.4rem, 8vw, 2.2rem);
   }
 
   .stage {
@@ -403,26 +403,26 @@
   }
 
   .railStep {
-    min-width: 108px;
-    min-height: 44px;
-    padding: 0 0 0 1.9rem;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
   }
 
   .railStep::before {
-    left: 4px;
+    display: none;
   }
 
   .wordStack {
-    min-height: 290px;
+    min-height: 240px;
   }
 
   .phaseViewport {
-    min-height: 220px;
+    min-height: 200px;
     width: 100%;
   }
 
   .phaseWord h3 {
-    font-size: clamp(3.2rem, 18vw, 5.5rem);
+    font-size: clamp(2.8rem, 16vw, 4.5rem);
   }
 
   .panel {
@@ -430,10 +430,11 @@
   }
 
   .panelTop {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .panelTop span:last-child {
-    text-align: left;
+    text-align: right;
   }
 }

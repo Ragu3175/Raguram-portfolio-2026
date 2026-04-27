@@ -100,9 +100,9 @@ const Projects = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=500%',
+          end: window.innerWidth < 768 ? '+=250%' : '+=500%',
           pin: true,
-          scrub: 2,
+          scrub: window.innerWidth < 768 ? 1 : 2,
         },
       });
 

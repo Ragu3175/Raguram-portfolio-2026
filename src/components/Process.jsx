@@ -92,7 +92,7 @@ export default function Process() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: `+=${PHASES.length * 95}%`,
+          end: `+=${PHASES.length * (window.innerWidth < 768 ? 50 : 95)}%`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,

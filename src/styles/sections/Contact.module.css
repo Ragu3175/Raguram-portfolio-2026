@@ -170,7 +170,46 @@
   animation: blink 1s step-end infinite;
 }
 
+.lime {
+  color: var(--lime);
+}
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 6rem 1.5rem 4rem;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+
+  .headline {
+    font-size: clamp(2.8rem, 12vw, 5rem);
+  }
+
+  .terminal {
+    padding: 1.25rem;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    min-height: auto;
+    width: 100%;
+  }
+
+  .linksContainer {
+    margin-top: 3rem;
+    gap: 1.5rem;
+  }
+
+  .footer {
+    margin-top: 4rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
 }
