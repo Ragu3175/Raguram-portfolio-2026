@@ -12,6 +12,8 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Process from './components/Process';
 import Contact from './components/Contact';
+import DotNav from './components/DotNav';
+
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -78,6 +80,17 @@ function App() {
     setLoadingFinished(true);
   }, []);
 
+  useEffect(() => {
+    if (!lenis) return;
+    const handler = (e) => {
+      const el = document.getElementById(e.detail.id)
+      if (el) lenis.scrollTo(el, { offset: 0 })
+    }
+    window.addEventListener('dotnav:scrollto', handler)
+    return () => window.removeEventListener('dotnav:scrollto', handler)
+  }, [lenis])
+
+
   return (
     <main style={{ backgroundColor: '#000000', minHeight: '100vh', position: 'relative' }}>
       {/* <StarField /> */}
@@ -90,13 +103,15 @@ function App() {
       
       {loadingFinished && (
         <>
-          <Transition />
+          <div id="whoami"><Transition /></div>
           <About />
           <Skills />
           <Projects />
           <Process />
           <Contact />
+          <DotNav />
         </>
+
       )}
       
       {/* Loader: Synchronized with Hero readiness */}

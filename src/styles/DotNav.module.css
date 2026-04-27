@@ -1,0 +1,78 @@
+.wrapper {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  z-index: 9000;
+}
+
+.dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(240, 237, 230, 0.2);
+  transform: scale(1);
+}
+
+.dot.active {
+  background: #E8FF47;
+  transform: scale(1.4);
+  box-shadow: 0 0 0 4px rgba(232, 255, 71, 0.15), 0 0 12px rgba(232, 255, 71, 0.4);
+}
+
+.dot.active::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(232, 255, 71, 0.3);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: dotPulse 2s ease-out infinite;
+}
+
+@keyframes dotPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+.label {
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 237, 230, 0.5);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.dot:hover .label {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    display: none;
+  }
+}
