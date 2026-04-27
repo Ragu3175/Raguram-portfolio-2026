@@ -58,19 +58,33 @@ const PHASES = [
   },
 ];
 
+const PHASE_COLORS = [
+  { accent: 'rgba(255, 170, 0, 0.8)', glow: 'rgba(255, 170, 0, 0.2)' },   // Decode: Amber
+  { accent: 'rgba(0, 180, 255, 0.8)', glow: 'rgba(0, 180, 255, 0.2)' },  // Architect: Blue
+  { accent: 'rgba(232, 255, 71, 0.8)', glow: 'rgba(232, 255, 71, 0.2)' }, // Build: Lime
+  { accent: 'rgba(255, 80, 80, 0.8)', glow: 'rgba(255, 80, 80, 0.2)' },   // Harden: Red
+  { accent: 'rgba(180, 100, 255, 0.8)', glow: 'rgba(180, 100, 255, 0.2)' }, // Ship: Purple
+];
+
 export default function Process() {
   const sectionRef = useRef(null);
   const progressRef = useRef(null);
   const scanRef = useRef(null);
   const phaseRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const phases = phaseRefs.current.filter(Boolean);
 
-      gsap.set(phases, { autoAlpha: 0, y: 36, filter: 'blur(10px)' });
-      gsap.set(phases[0], { autoAlpha: 1, y: 0, filter: 'blur(0px)' });
+      gsap.set(phases, { autoAlpha: 0, y: 36, filter: 'blur(10px)', scale: 0.95 });
+      gsap.set(phases[0], { autoAlpha: 1, y: 0, filter: 'blur(0px)', scale: 1 });
+      
+      const firstLetters = phases[0].querySelectorAll(`.${styles.letter}`);
+      gsap.set(firstLetters, { opacity: 1, y: 0, filter: 'blur(0px)' });
+      
       gsap.set(progressRef.current, { scaleY: 0, transformOrigin: 'top center' });
       gsap.set(scanRef.current, { yPercent: -20, autoAlpha: 0.35 });
 
@@ -87,7 +101,10 @@ export default function Process() {
               PHASES.length - 1,
               Math.floor(self.progress * PHASES.length)
             );
-            setActiveIndex(next);
+            if (next !== activeIndexRef.current) {
+              activeIndexRef.current = next;
+              setActiveIndex(next);
+            }
           },
         },
       });
@@ -107,27 +124,64 @@ export default function Process() {
 
       phases.forEach((phase, index) => {
         const at = index + 0.1;
+        
+        // Color transition
+        const colors = PHASE_COLORS[index];
+        tl.to(sectionRef.current, {
+          '--phase-accent': colors.accent,
+          '--phase-glow': colors.glow,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          overwrite: true,
+          immediateRender: false,
+        }, at);
+
         if (index > 0) {
           tl.to(phases[index - 1], {
             autoAlpha: 0,
-            y: -30,
-            filter: 'blur(10px)',
-            duration: 0.35,
+            y: -40,
+            filter: 'blur(15px)',
+            scale: 1.05,
+            duration: 0.4,
             ease: 'power2.inOut',
-          }, at - 0.22);
-          tl.to(phase, {
-            autoAlpha: 1,
-            y: 0,
-            filter: 'blur(0px)',
-            duration: 0.45,
-            ease: 'power3.out',
-          }, at);
+          }, at - 0.25);
+
+          const letters = phase.querySelectorAll(`.${styles.letter}`);
+          
+          tl.fromTo(phase, 
+            { autoAlpha: 0, y: 40, filter: 'blur(15px)', scale: 0.9 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              scale: 1,
+              duration: 0.5,
+              ease: 'back.out(1.4)',
+              overwrite: true,
+            }, 
+            at
+          );
+
+          tl.fromTo(letters,
+            { opacity: 0, y: 20, filter: 'blur(10px)' },
+            {
+              opacity: 1,
+              y: 0,
+              filter: 'blur(0px)',
+              duration: 0.4,
+              stagger: 0.05,
+              ease: 'power3.out',
+              overwrite: true,
+            },
+            at + 0.1
+          );
+
         }
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, []); // Remove activeIndex to prevent ScrollTrigger recreation on every phase change
 
   const activePhase = PHASES[activeIndex];
 
@@ -176,7 +230,11 @@ export default function Process() {
                     className={styles.phaseWord}
                   >
                     <span>{phase.id}</span>
-                    <h3>{phase.verb}</h3>
+                    <h3>
+                      {phase.verb.split('').map((char, charIdx) => (
+                        <span key={charIdx} className={styles.letter}>{char}</span>
+                      ))}
+                    </h3>
                     <p>{phase.title}</p>
                   </div>
                 ))}

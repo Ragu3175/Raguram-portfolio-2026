@@ -5,7 +5,8 @@
   overflow: hidden;
   background: #0A0A0F;
   color: var(--cream);
-
+  --phase-accent: rgba(232, 255, 71, 0.7);
+  --phase-glow: rgba(232, 255, 71, 0.15);
 }
 
 .gridOverlay {
@@ -19,6 +20,12 @@
   background-size: 72px 72px;
   mask-image: radial-gradient(circle at center, black, transparent 78%);
   -webkit-mask-image: radial-gradient(circle at center, black, transparent 78%);
+  animation: gridPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes gridPulse {
+  0% { opacity: 0.2; }
+  100% { opacity: 0.45; }
 }
 
 .scanLine {
@@ -31,10 +38,11 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(232, 255, 71, 0.045),
+    var(--phase-glow),
     transparent
   );
   mix-blend-mode: screen;
+  transition: background 0.5s ease;
 }
 
 .shell {
@@ -217,7 +225,9 @@
   font-size: clamp(1.6rem, 3.8vw, 4.2rem);
   font-family: var(--font-display);
   line-height: 1;
-  color: rgba(232, 255, 71, 0.22);
+  color: var(--phase-accent);
+  opacity: 0.2;
+  transition: color 0.5s ease;
 }
 
 .phaseWord h3 {
@@ -227,6 +237,15 @@
   letter-spacing: -0.045em;
   color: #f0ede6;
   text-transform: uppercase;
+  text-shadow: 0 0 30px var(--phase-glow);
+  transition: text-shadow 0.5s ease;
+  display: flex;
+  gap: 0.1em;
+}
+
+.letter {
+  display: inline-block;
+  will-change: transform, opacity, filter;
 }
 
 .phaseWord p {
