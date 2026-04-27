@@ -199,11 +199,23 @@ function TerminalBlock() {
         {typedLines.map((line, idx) => {
           const fullLineText = terminalLines[idx];
           const isHighlighted = fullLineText.includes('target:') || fullLineText.includes('status:');
+          const isTargetLine = fullLineText.includes('target:');
           
           return (
             <div key={idx} className={isHighlighted ? styles.lime : ''} style={{ fontWeight: isHighlighted ? 600 : 400 }}>
               <span className={styles.linePrefix}>&gt;</span>
-              {line}
+              {isTargetLine ? (
+                <a 
+                  href="mailto:ragu317317@gmail.com" 
+                  style={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}
+                  onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                >
+                  {line}
+                </a>
+              ) : (
+                line
+              )}
               {idx === typedLines.length - 1 && (
                 <div className={styles.cursor} />
               )}
