@@ -59,11 +59,11 @@ const PHASES = [
 ];
 
 const PHASE_COLORS = [
-  { accent: 'rgba(255, 170, 0, 0.8)', glow: 'rgba(255, 170, 0, 0.2)' },   // Decode: Amber
-  { accent: 'rgba(0, 180, 255, 0.8)', glow: 'rgba(0, 180, 255, 0.2)' },  // Architect: Blue
+  { accent: 'rgba(232, 255, 71, 0.8)', glow: 'rgba(232, 255, 71, 0.2)' }, // Decode: Lime
+  { accent: 'rgba(232, 255, 71, 0.8)', glow: 'rgba(232, 255, 71, 0.2)' }, // Architect: Lime
   { accent: 'rgba(232, 255, 71, 0.8)', glow: 'rgba(232, 255, 71, 0.2)' }, // Build: Lime
-  { accent: 'rgba(255, 80, 80, 0.8)', glow: 'rgba(255, 80, 80, 0.2)' },   // Harden: Red
-  { accent: 'rgba(180, 100, 255, 0.8)', glow: 'rgba(180, 100, 255, 0.2)' }, // Ship: Purple
+  { accent: 'rgba(232, 255, 71, 0.8)', glow: 'rgba(232, 255, 71, 0.2)' }, // Harden: Lime
+  { accent: 'rgba(232, 255, 71, 0.8)', glow: 'rgba(232, 255, 71, 0.2)' }, // Ship: Lime
 ];
 
 export default function Process() {
@@ -132,7 +132,6 @@ export default function Process() {
           '--phase-glow': colors.glow,
           duration: 0.5,
           ease: 'power2.inOut',
-          overwrite: true,
           immediateRender: false,
         }, at);
 
@@ -157,7 +156,6 @@ export default function Process() {
               scale: 1,
               duration: 0.5,
               ease: 'back.out(1.4)',
-              overwrite: true,
             }, 
             at
           );
@@ -171,7 +169,6 @@ export default function Process() {
               duration: 0.4,
               stagger: 0.05,
               ease: 'power3.out',
-              overwrite: true,
             },
             at + 0.1
           );

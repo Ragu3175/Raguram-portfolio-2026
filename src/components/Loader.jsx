@@ -10,8 +10,6 @@ export default function Loader({ isReady, onComplete }) {
   const tlRef = useRef(null)
   const [showStatus, setShowStatus] = useState(false)
 
-  const letters = ['R', 'A', 'G', 'U', 'R', 'A', 'M', ' ', 'R']
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline()
@@ -32,14 +30,14 @@ export default function Loader({ isReady, onComplete }) {
         ease: 'power4.out'
       })
 
-      // Progress bar fills to 90%
-      .to(barRef.current, {
-        scaleX: 0.9,
-        duration: 2.5,
-        ease: 'power2.out'
-      }, '-=0.5')
-      
-      .addLabel('optimized')
+        // Progress bar fills to 90%
+        .to(barRef.current, {
+          scaleX: 0.9,
+          duration: 2.5,
+          ease: 'power2.out'
+        }, '-=0.5')
+
+        .addLabel('optimized')
 
       // Waiting logic will happen in the other useEffect
       tl.pause()
@@ -58,23 +56,23 @@ export default function Loader({ isReady, onComplete }) {
   useEffect(() => {
     if (isReady && tlRef.current) {
       const tl = tlRef.current
-      
+
       // If we are at the pause point, finish it
       tl.to(barRef.current, {
         scaleX: 1,
         duration: 0.4,
         ease: 'power4.inOut'
       })
-      .to(loaderRef.current, {
-        yPercent: -100,
-        duration: 0.8,
-        ease: 'power4.inOut',
-        onComplete: () => {
-          if (onComplete) onComplete()
-          if (loaderRef.current) loaderRef.current.style.display = 'none'
-        }
-      })
-      .play()
+        .to(loaderRef.current, {
+          yPercent: -100,
+          duration: 0.8,
+          ease: 'power4.inOut',
+          onComplete: () => {
+            if (onComplete) onComplete()
+            if (loaderRef.current) loaderRef.current.style.display = 'none'
+          }
+        })
+        .play()
     }
   }, [isReady])
 
@@ -94,24 +92,23 @@ export default function Loader({ isReady, onComplete }) {
       }}
     >
       {/* Name */}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-        {letters.map((l, i) => (
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.05em' }}>
+        {[...('RAGURAM'.split('').map(l => ({ char: l, color: '#F0EDE6' }))), 
+          ...('.R'.split('').map(l => ({ char: l, color: '#E8FF47' })))].map((item, i) => (
           <span
             key={i}
             ref={el => lettersRef.current[i] = el}
             style={{
-              fontSize: 'clamp(2rem, 5vw, 4rem)',
+              fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
               fontWeight: 800,
-              color: '#F0EDE6',
-              letterSpacing: '0.02em',
+              color: item.color,
+              letterSpacing: '0.05em',
               display: 'inline-block',
               fontFamily: 'Clash Display, DM Sans, sans-serif',
               opacity: 0,
-              transform: 'translateY(20px)',
-              filter: 'blur(10px)'
             }}
           >
-            {l}
+            {item.char}
           </span>
         ))}
       </div>
@@ -130,11 +127,11 @@ export default function Loader({ isReady, onComplete }) {
             }}
           />
         </div>
-        
+
         {/* Status message */}
-        <div 
+        <div
           ref={statusRef}
-          style={{ 
+          style={{
             height: '12px',
             opacity: showStatus ? 1 : 0,
             transition: 'opacity 0.5s ease',

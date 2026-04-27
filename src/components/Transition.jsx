@@ -6,24 +6,24 @@ import styles from '../styles/sections/Transition.module.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const WORDS = [
-  { text: 'OBSESS.', color: 'rgba(240,237,230,0.5)' },
+  { text: 'OBSESS.', color: '#4A4A4A' },
   { text: 'BUILD.',  color: '#F0EDE6' },
   { text: 'OUTLAST.', color: '#E8FF47' },
 ];
 
 const Transition = () => {
-  const sectionRef  = useRef(null);
-  const wordRefs    = useRef([]);
-  const lineRef     = useRef(null);
+  const sectionRef = useRef(null);
+  const wordRefs = useRef([]);
+  const lineRef = useRef(null);
 
   useLayoutEffect(() => {
     // Keep the refresh delay from before to ensure Lenis/DOM settles
     const refreshId = setTimeout(() => ScrollTrigger.refresh(), 800);
-    
+
     const ctx = gsap.context(() => {
 
       gsap.set(wordRefs.current, { opacity: 0, y: 20 });
-      gsap.set(lineRef.current,  { scaleX: 0, transformOrigin: 'left center' });
+      gsap.set(lineRef.current, { scaleX: 0, transformOrigin: 'left center' });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -37,7 +37,7 @@ const Transition = () => {
       });
 
       // Words slam in staggered with cinematic blur and scale
-      tl.fromTo(wordRefs.current, 
+      tl.fromTo(wordRefs.current,
         { opacity: 0, y: 40, filter: 'blur(10px)', scale: 0.9 },
         {
           opacity: 1,
@@ -49,7 +49,7 @@ const Transition = () => {
           ease: 'power3.out',
         }
       );
-      
+
       // Lime underline draws across after words land
       tl.to(lineRef.current, {
         scaleX: 1,
