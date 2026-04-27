@@ -15,7 +15,7 @@ dist-ssr
 # Custom ignores
 previous portfolio/
 Build_prompt.md
-public/hero_frames/
+
 .env
 .env.local
 .env.*.local

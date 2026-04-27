@@ -191,8 +191,7 @@ export default function Hero({ onReady, scrollTo }) {
         ) : (
           <canvas
             ref={canvasRef}
-            className={mediaStyle}
-            style={{ objectFit: 'cover', opacity: 0, position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0, willChange: 'transform' }}
+            style={{ ...mediaStyle, opacity: 0 }}
           />
         )}
 
