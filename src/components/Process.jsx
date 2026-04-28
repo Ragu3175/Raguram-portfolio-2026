@@ -208,9 +208,7 @@ export default function Process() {
         <div className={styles.header}>
           <span className={styles.label}>05 / Execution Pipeline</span>
           <h2 className={styles.heading}>
-            <span>How I turn</span>
-            <span>chaos into</span>
-            <span>shipped software.</span>
+            How&nbsp;I&nbsp;turn&nbsp;chaos&nbsp;into&nbsp;shipped&nbsp;software.
           </h2>
         </div>
 
