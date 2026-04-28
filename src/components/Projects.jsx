@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from '../styles/sections/Projects.module.css';
@@ -84,7 +84,18 @@ const Projects = () => {
     PROJECTS.reduce((acc, p) => ({ ...acc, [p.id]: 0 }), {})
   );
 
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobileView(window.innerWidth < 768);
+    check(); // run immediately on mount
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   useLayoutEffect(() => {
+    if (isMobileView) return;
+
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray(`.${styles.panel}`);
 
@@ -154,7 +165,7 @@ const Projects = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobileView]);
 
   const handleThumbClick = (projectId, index) => {
     setActiveImages(prev => ({ ...prev, [projectId]: index }));
@@ -162,121 +173,188 @@ const Projects = () => {
 
   return (
     <section ref={sectionRef} id="work" className={styles.section}>
-      <div className={styles.container}>
-        {PROJECTS.map((p, i) => (
-          <div
-            key={p.id}
-            className={styles.panel}
-            style={{ zIndex: PROJECTS.length - i }}
-          >
-            {/* Gradient mesh background */}
-            <div
-              className={styles.meshBg}
-              style={{
-                '--c1': p.mesh.c1,
-                '--c2': p.mesh.c2,
-                '--c3': p.mesh.c3,
-              }}
-            />
-            {/* Directional rim light overlay */}
-            <div className={styles.rimLight} />
-
-            <div className={styles.panelContent}>
-
-              {/* LEFT — Info */}
-              <div className={styles.infoCol}>
-                <div className={styles.metaRow}>
-                  <span className={styles.number}>{p.id}</span>
-                  <span>{p.type}</span>
-                  <span>{p.year}</span>
+      {isMobileView ? (
+        <div className={styles.mobileSnap} data-lenis-prevent>
+          {PROJECTS.map((p, i) => (
+            <div key={p.id} className={styles.mobileCard}>
+              {/* Gradient mesh background */}
+              <div
+                className={styles.meshBg}
+                style={{
+                  '--c1': p.mesh.c1,
+                  '--c2': p.mesh.c2,
+                  '--c3': p.mesh.c3,
+                }}
+              />
+              
+              <div className={styles.mobileCardContent}>
+                {/* Top: meta */}
+                <div className={styles.mobileMeta}>
+                  <span className={styles.mobileNum}>{p.id}</span>
+                  <span className={styles.mobileType}>{p.type}</span>
                 </div>
-                <h2 className={styles.name} data-project-name>{p.name}</h2>
-                <div className={styles.stack}>
+
+                {/* Project name */}
+                <h2 className={styles.mobileName}>{p.name}</h2>
+
+                {/* Stack pills */}
+                <div className={styles.mobilePills}>
                   {p.stack.map(s => (
                     <span key={s} className={styles.stackItem}>{s}</span>
                   ))}
                 </div>
-                <p className={styles.desc}>{p.desc}</p>
-                <div className={styles.proofGrid}>
-                  {p.proof.map(item => (
-                    <span key={item}>{item}</span>
-                  ))}
+
+                {/* Screenshot */}
+                <div className={`${styles.mobileImgWrap} ${p.isMobile ? styles.mobileImgWrapPhone : ''}`}>
+                  <img src={p.images[0]} alt={p.name} className={styles.mobileImg} />
                 </div>
-                <div className={styles.actions}>
+
+                {/* Description */}
+                <p className={styles.mobileDesc}>{p.desc}</p>
+
+                {/* Actions */}
+                <div className={styles.mobileActions}>
                   <a href={p.live} target="_blank" rel="noreferrer" className={styles.btnLive}>
                     View Live
                   </a>
                   <a href={p.github} target="_blank" rel="noreferrer" className={styles.btnGh}>
-                    GitHub →
+                    GitHub &rarr;
                   </a>
                 </div>
-              </div>
 
-              {/* RIGHT — Stacked card images */}
-              <div className={styles.visualCol}>
-                <div className={`${styles.cardStack} ${p.isMobile ? styles.mobileStack : ''}`}>
-
-                  <div className={styles.visualLabel}>
-                    <span>Preview</span>
-                    <strong>{String(activeImages[p.id] + 1).padStart(2, '0')} / {String(p.images.length).padStart(2, '0')}</strong>
-                  </div>
-
-                  {/* Background thumbnail cards — dynamically filter out the active image */}
-                  {p.images
-                    .map((img, idx) => ({ img, idx }))
-                    .filter(item => item.idx !== activeImages[p.id])
-                    .map((item, i) => (
-                    <div
-                      key={item.idx}
-                      className={`${styles.thumbCard} ${styles[`thumbCard${i + 1}`]}`}
-                      onClick={() => handleThumbClick(p.id, item.idx)}
-                    >
-                      <img src={item.img} alt={`${p.name} screenshot ${item.idx + 1}`} />
-                    </div>
-                  ))}
-
-                  {/* Main card — front */}
-                  <div
-                    className={styles.mainCard}
-                    onClick={() => handleThumbClick(p.id, 0)}
-                  >
-                    {!p.isMobile && (
-                      <div className={styles.browserBar}>
-                        <div className={styles.browserDots}>
-                          <span />
-                          <span />
-                          <span />
-                        </div>
-                        <span className={styles.browserUrl}>{p.name.toLowerCase().replaceAll(' ', '-')}.app</span>
-                      </div>
-                    )}
-                    <img
-                      src={p.images[activeImages[p.id]]}
-                      alt={p.name}
-                    />
-                  </div>
-                  <div className={styles.cardGlow}
-                    style={{ background: p.glowRgba, filter: 'blur(35px)' }}
-                  />
-
-                  {/* Thumbnail dots navigation */}
-                  <div className={styles.thumbDots}>
-                    {p.images.map((_, dotIdx) => (
-                      <button
-                        key={dotIdx}
-                        className={`${styles.dot} ${activeImages[p.id] === dotIdx ? styles.dotActive : ''}`}
-                        onClick={() => handleThumbClick(p.id, dotIdx)}
+                {/* Scroll Indicator */}
+                <div className={styles.mobileScrollIndicator}>
+                  <p>{i < PROJECTS.length - 1 ? '↓ scroll for next project' : 'End of projects'}</p>
+                  <div className={styles.mobileDots}>
+                    {PROJECTS.map((_, dotIdx) => (
+                      <span 
+                        key={dotIdx} 
+                        className={`${styles.mobileDot} ${i === dotIdx ? styles.mobileDotActive : ''}`} 
                       />
                     ))}
                   </div>
-
                 </div>
               </div>
-
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.container}>
+          {PROJECTS.map((p, i) => (
+            <div
+              key={p.id}
+              className={styles.panel}
+              style={{ zIndex: PROJECTS.length - i }}
+            >
+              {/* Gradient mesh background */}
+              <div
+                className={styles.meshBg}
+                style={{
+                  '--c1': p.mesh.c1,
+                  '--c2': p.mesh.c2,
+                  '--c3': p.mesh.c3,
+                }}
+              />
+              {/* Directional rim light overlay */}
+              <div className={styles.rimLight} />
+
+              <div className={styles.panelContent}>
+
+                {/* LEFT — Info */}
+                <div className={styles.infoCol}>
+                  <div className={styles.metaRow}>
+                    <span className={styles.number}>{p.id}</span>
+                    <span>{p.type}</span>
+                    <span>{p.year}</span>
+                  </div>
+                  <h2 className={styles.name} data-project-name>{p.name}</h2>
+                  <div className={styles.stack}>
+                    {p.stack.map(s => (
+                      <span key={s} className={styles.stackItem}>{s}</span>
+                    ))}
+                  </div>
+                  <p className={styles.desc}>{p.desc}</p>
+                  <div className={styles.proofGrid}>
+                    {p.proof.map(item => (
+                      <span key={item}>{item}</span>
+                    ))}
+                  </div>
+                  <div className={styles.actions}>
+                    <a href={p.live} target="_blank" rel="noreferrer" className={styles.btnLive}>
+                      View Live
+                    </a>
+                    <a href={p.github} target="_blank" rel="noreferrer" className={styles.btnGh}>
+                      GitHub →
+                    </a>
+                  </div>
+                </div>
+
+                {/* RIGHT — Stacked card images */}
+                <div className={styles.visualCol}>
+                  <div className={`${styles.cardStack} ${p.isMobile ? styles.mobileStack : ''}`}>
+
+                    <div className={styles.visualLabel}>
+                      <span>Preview</span>
+                      <strong>{String(activeImages[p.id] + 1).padStart(2, '0')} / {String(p.images.length).padStart(2, '0')}</strong>
+                    </div>
+
+                    {/* Background thumbnail cards — dynamically filter out the active image */}
+                    {p.images
+                      .map((img, idx) => ({ img, idx }))
+                      .filter(item => item.idx !== activeImages[p.id])
+                      .map((item, i) => (
+                      <div
+                        key={item.idx}
+                        className={`${styles.thumbCard} ${styles[`thumbCard${i + 1}`]}`}
+                        onClick={() => handleThumbClick(p.id, item.idx)}
+                      >
+                        <img src={item.img} alt={`${p.name} screenshot ${item.idx + 1}`} />
+                      </div>
+                    ))}
+
+                    {/* Main card — front */}
+                    <div
+                      className={styles.mainCard}
+                      onClick={() => handleThumbClick(p.id, 0)}
+                    >
+                      {!p.isMobile && (
+                        <div className={styles.browserBar}>
+                          <div className={styles.browserDots}>
+                            <span />
+                            <span />
+                            <span />
+                          </div>
+                          <span className={styles.browserUrl}>{p.name.toLowerCase().replaceAll(' ', '-')}.app</span>
+                        </div>
+                      )}
+                      <img
+                        src={p.images[activeImages[p.id]]}
+                        alt={p.name}
+                      />
+                    </div>
+                    <div className={styles.cardGlow}
+                      style={{ background: p.glowRgba, filter: 'blur(35px)' }}
+                    />
+
+                    {/* Thumbnail dots navigation */}
+                    <div className={styles.thumbDots}>
+                      {p.images.map((_, dotIdx) => (
+                        <button
+                          key={dotIdx}
+                          className={`${styles.dot} ${activeImages[p.id] === dotIdx ? styles.dotActive : ''}`}
+                          onClick={() => handleThumbClick(p.id, dotIdx)}
+                        />
+                      ))}
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 };

@@ -548,3 +548,144 @@
     font-size: 0.5rem;
   }
 }
+
+/* ── MOBILE SCROLL-SNAP LAYOUT ── */
+@media (max-width: 768px) {
+  .section {
+    height: auto;
+    overflow: visible;
+    perspective: none;
+  }
+
+  .mobileSnap {
+    display: flex;
+    flex-direction: column;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100svh;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobileCard {
+    flex: 0 0 100svh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    background: #0A0A0F;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mobileCardContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.9rem;
+    padding: 6rem 1.5rem 2.5rem;
+    height: 100%;
+  }
+
+  .mobileMeta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240, 237, 230, 0.3);
+  }
+
+  .mobileNum {
+    color: rgba(232, 255, 71, 0.85);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+  }
+
+  .mobileType {
+    color: rgba(240, 237, 230, 0.3);
+  }
+
+  .mobileName {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    color: #F0EDE6;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+  }
+
+  .mobilePills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .mobileImgWrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(240, 237, 230, 0.1);
+    flex-shrink: 0;
+  }
+
+  .mobileImgWrapPhone {
+    aspect-ratio: 9/16;
+    max-width: 160px;
+    margin: 0 auto;
+  }
+
+  .mobileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mobileDesc {
+    font-size: 0.85rem;
+    color: rgba(240, 237, 230, 0.5);
+    line-height: 1.65;
+  }
+
+  .mobileActions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .mobileScrollIndicator {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding-top: 2rem;
+  }
+
+  .mobileScrollIndicator p {
+    font-size: 0.6rem;
+    color: rgba(240, 237, 230, 0.25);
+    letter-spacing: 0.1em;
+    text-transform: lowercase;
+  }
+
+  .mobileDots {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .mobileDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(240, 237, 230, 0.15);
+  }
+
+  .mobileDotActive {
+    background: #E8FF47;
+  }
+}
