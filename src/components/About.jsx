@@ -144,11 +144,11 @@ const About = () => {
 
           <div ref={statsRef} className={styles.stats}>
             <div className={styles.stat}>
-              <span className={styles.statNum}>3<sup>+</sup></span>
+              <span className={styles.statNum}>2<sup>+</sup></span>
               <span className={styles.statLabel}>Years Building</span>
             </div>
             <div className={styles.stat}>
-              <span className={styles.statNum}>27<sup>+</sup></span>
+              <span className={styles.statNum}>14<sup>+</sup></span>
               <span className={styles.statLabel}>Projects Shipped</span>
             </div>
             <div className={styles.stat}>
