@@ -438,3 +438,8 @@
     text-align: right;
   }
 }
+
+.hiddenMobile {
+  display: none !important;
+}
+

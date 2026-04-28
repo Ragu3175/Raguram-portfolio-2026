@@ -75,7 +75,17 @@ export default function Process() {
   const activeIndexRef = useRef(0);
 
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useLayoutEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isMobile) return;
     const ctx = gsap.context(() => {
       const phases = phaseRefs.current.filter(Boolean);
 
@@ -182,8 +192,15 @@ export default function Process() {
 
   const activePhase = PHASES[activeIndex];
 
+  // Do not return null here, as it can break GSAP pinning cleanup
+  // Instead, we just let the section render but we'll hide it via CSS if needed
+
   return (
-    <section ref={sectionRef} id="process" className={styles.section}>
+    <section 
+      ref={sectionRef} 
+      id="process" 
+      className={`${styles.section} ${isMobile ? styles.hiddenMobile : ''}`}
+    >
       <div className={styles.gridOverlay} />
       <div ref={scanRef} className={styles.scanLine} />
 

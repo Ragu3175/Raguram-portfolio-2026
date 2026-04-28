@@ -85,6 +85,35 @@ const Projects = () => {
   );
 
   const [isMobileView, setIsMobileView] = useState(false);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
+  const mobileScrollRef = useRef(null);
+
+  const handleMobileScroll = () => {
+    if (!mobileScrollRef.current) return;
+    const scrollLeft = mobileScrollRef.current.scrollLeft;
+    const width = mobileScrollRef.current.clientWidth;
+    const newIndex = Math.round(scrollLeft / width);
+    if (newIndex !== mobileActiveIndex) {
+      setMobileActiveIndex(newIndex);
+    }
+  };
+
+  const scrollToMobileProject = (index) => {
+    if (!mobileScrollRef.current) return;
+    if (index < 0 || index >= PROJECTS.length) return;
+    const width = mobileScrollRef.current.clientWidth;
+    mobileScrollRef.current.scrollTo({ left: width * index, behavior: 'smooth' });
+  };
+
+  const handleTap = (e) => {
+    const x = e.clientX;
+    const width = window.innerWidth;
+    if (x < width * 0.3) {
+      scrollToMobileProject(mobileActiveIndex - 1);
+    } else {
+      scrollToMobileProject(mobileActiveIndex + 1);
+    }
+  };
 
   useEffect(() => {
     const check = () => setIsMobileView(window.innerWidth < 768);
@@ -174,69 +203,79 @@ const Projects = () => {
   return (
     <section ref={sectionRef} id="work" className={styles.section}>
       {isMobileView ? (
-        <div className={styles.mobileSnap} data-lenis-prevent>
-          {PROJECTS.map((p, i) => (
-            <div key={p.id} className={styles.mobileCard}>
-              {/* Gradient mesh background */}
-              <div
-                className={styles.meshBg}
-                style={{
-                  '--c1': p.mesh.c1,
-                  '--c2': p.mesh.c2,
-                  '--c3': p.mesh.c3,
-                }}
-              />
-              
-              <div className={styles.mobileCardContent}>
-                {/* Top: meta */}
-                <div className={styles.mobileMeta}>
-                  <span className={styles.mobileNum}>{p.id}</span>
-                  <span className={styles.mobileType}>{p.type}</span>
-                </div>
+        <div className={styles.mobileStoryContainer}>
+          {/* Top Story Bars */}
+          <div className={styles.mobileStoryBars}>
+            {PROJECTS.map((_, idx) => (
+              <div key={idx} className={styles.mobileStoryBarWrapper}>
+                <div 
+                  className={`${styles.mobileStoryBar} ${idx < mobileActiveIndex ? styles.mobileStoryBarFull : ''} ${idx === mobileActiveIndex ? styles.mobileStoryBarActive : ''}`} 
+                />
+              </div>
+            ))}
+          </div>
 
-                {/* Project name */}
-                <h2 className={styles.mobileName}>{p.name}</h2>
+          <div 
+            className={styles.mobileSnap} 
+            ref={mobileScrollRef}
+            onScroll={handleMobileScroll}
+            onClick={handleTap}
+            data-lenis-prevent
+          >
+            {PROJECTS.map((p, i) => (
+              <div key={p.id} className={styles.mobileCard}>
+                {/* Gradient mesh background */}
+                <div
+                  className={styles.meshBg}
+                  style={{
+                    '--c1': p.mesh.c1,
+                    '--c2': p.mesh.c2,
+                    '--c3': p.mesh.c3,
+                  }}
+                />
+                
+                <div className={styles.mobileCardContent}>
+                  {/* Top: meta */}
+                  <div className={styles.mobileMeta}>
+                    <span className={styles.mobileNum}>{p.id}</span>
+                    <span className={styles.mobileType}>{p.type}</span>
+                  </div>
 
-                {/* Stack pills */}
-                <div className={styles.mobilePills}>
-                  {p.stack.map(s => (
-                    <span key={s} className={styles.stackItem}>{s}</span>
-                  ))}
-                </div>
+                  {/* Project name */}
+                  <h2 className={styles.mobileName}>{p.name}</h2>
 
-                {/* Screenshot */}
-                <div className={`${styles.mobileImgWrap} ${p.isMobile ? styles.mobileImgWrapPhone : ''}`}>
-                  <img src={p.images[0]} alt={p.name} className={styles.mobileImg} />
-                </div>
-
-                {/* Description */}
-                <p className={styles.mobileDesc}>{p.desc}</p>
-
-                {/* Actions */}
-                <div className={styles.mobileActions}>
-                  <a href={p.live} target="_blank" rel="noreferrer" className={styles.btnLive}>
-                    View Live
-                  </a>
-                  <a href={p.github} target="_blank" rel="noreferrer" className={styles.btnGh}>
-                    GitHub &rarr;
-                  </a>
-                </div>
-
-                {/* Scroll Indicator */}
-                <div className={styles.mobileScrollIndicator}>
-                  <p>{i < PROJECTS.length - 1 ? '↓ scroll for next project' : 'End of projects'}</p>
-                  <div className={styles.mobileDots}>
-                    {PROJECTS.map((_, dotIdx) => (
-                      <span 
-                        key={dotIdx} 
-                        className={`${styles.mobileDot} ${i === dotIdx ? styles.mobileDotActive : ''}`} 
-                      />
+                  {/* Stack pills */}
+                  <div className={styles.mobilePills}>
+                    {p.stack.map(s => (
+                      <span key={s} className={styles.stackItem}>{s}</span>
                     ))}
+                  </div>
+
+                  {/* Screenshot */}
+                  <div className={`${styles.mobileImgWrap} ${p.isMobile ? styles.mobileImgWrapPhone : ''}`}>
+                    <img src={p.images[0]} alt={p.name} className={styles.mobileImg} />
+                  </div>
+
+                  {/* Description */}
+                  <p className={styles.mobileDesc}>{p.desc}</p>
+
+                  {/* Actions */}
+                  <div className={styles.mobileActions}>
+                    <a href={p.live} target="_blank" rel="noreferrer" className={styles.btnLive}>
+                      View Live
+                    </a>
+                    <a href={p.github} target="_blank" rel="noreferrer" className={styles.btnGh}>
+                      GitHub &rarr;
+                    </a>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <div className={styles.mobileSwipeHint}>
+            &larr; Swipe or Tap to Navigate &rarr;
+          </div>
         </div>
       ) : (
         <div className={styles.container}>

@@ -23,14 +23,15 @@ const Atmosphere = ({ isActive }) => {
   }, []);
 
   useEffect(() => {
+    let fadeIn;
     if (isActive && hasInteracted && audioRef.current) {
       audioRef.current.volume = 0;
       audioRef.current.play().catch(err => console.log("Audio play blocked", err));
       
       // Gradually fade in the crackling sound
       let vol = 0;
-      const fadeIn = setInterval(() => {
-        if (vol < 0.15) {
+      fadeIn = setInterval(() => {
+        if (audioRef.current && vol < 0.15) {
           vol += 0.01;
           audioRef.current.volume = vol;
         } else {
@@ -38,6 +39,9 @@ const Atmosphere = ({ isActive }) => {
         }
       }, 100);
     }
+    return () => {
+      if (fadeIn) clearInterval(fadeIn);
+    };
   }, [isActive, hasInteracted]);
 
   return (
