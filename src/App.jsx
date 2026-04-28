@@ -84,7 +84,11 @@ function App() {
     if (!lenis) return;
     const handler = (e) => {
       const el = document.getElementById(e.detail.id)
-      if (el) lenis.scrollTo(el, { offset: 0 })
+      if (el) {
+        // Match the Hero.jsx nav behavior: land at the end of the About reveal pin
+        const offset = e.detail.id === 'about' ? window.innerHeight * 1.95 : 0;
+        lenis.scrollTo(el, { offset });
+      }
     }
     window.addEventListener('dotnav:scrollto', handler)
     return () => window.removeEventListener('dotnav:scrollto', handler)
